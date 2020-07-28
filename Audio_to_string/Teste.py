@@ -1,6 +1,5 @@
 from funcoes import *
 
-
 intro()
 while True:
     fala = reconhecimento()
