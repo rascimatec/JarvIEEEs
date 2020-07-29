@@ -19,17 +19,18 @@ class ConnectBancoDados:
 
             if  tabela == 1:
                 record = input("Digite a ação desejada :")
-                insert_command = "INSERT INTO acao(acoes) VALUES('" + record[0] + "')"
+                forgenkey = int(input("Qual o Id comando para esta acao :"))
+                insert_command = "INSERT INTO acao(acoes) VALUES('" + record + "'" + forgenkey + "')"
                 break
 
             elif tabela == 2:
                 record = input("Digite o comando desejado :")
-                insert_command = "INSERT INTO comando(comando) VALUES('" + record[0] + "')"
+                insert_command = "INSERT INTO comando(comando) VALUES('" + record + "')"
                 break
 
             elif tabela == 3:
                 record = input("Dicionario aberto digite:")
-                insert_command = "INSERT INTO dicionario(palavras, sinonimos) VALUES('" + record[0] + "','" + record[1] + "')"
+                insert_command = "INSERT INTO dicionario(palavra, sinonimo, antonimo) VALUES('" + record + "','" + record + "','" + record + "')"
                 break
 
             else:
@@ -44,21 +45,21 @@ class ConnectBancoDados:
             tabela = int(input("Qual tabela deseja modificar ? :"))
 
             if tabela == 1:
+                i = int(input("Digite o ID do item desejado :"))
                 mod = input("Digite o novo texto :")
-                i = int(input("Digite o ID do item desejado"))
                 update_command = (f"UPDATE acao SET acoes={mod} WHERE id_acoa={i}")            
                 break
 
             elif tabela == 2:
+                i = int(input("Digite o ID do item desejado :"))
                 mod = input("Digite o novo texto :")
-                i = int(input("Digite o ID do item desejado"))
                 update_command = (f"UPDATE comando SET comando={mod} WHERE id_comando={i}")            
                 break
 
             elif tabela == 3:
-                campo = input("Qual campo da tabela deseja alterar")
+                i = int(input("Digite o ID do item desejado :"))
+                campo = input("Qual campo da tabela deseja alterar :")
                 mod = input("Digite o novo texto :")
-                i = int(input("Digite o ID do item desejado"))
                 update_command = (f"UPDATE dicionario SET {campo}={mod} WHERE id_dicionario={i}")            
                 break
 
@@ -100,5 +101,6 @@ class ConnectBancoDados:
     
 if __name__ == '__main__':
     banco_de_dados = ConnectBancoDados()
-    banco_de_dados.showdonw()
-    
+    #banco_de_dados.showdonw()
+    #banco_de_dados.update_record()
+    banco_de_dados.insert_record()
