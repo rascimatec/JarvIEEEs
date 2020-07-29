@@ -100,4 +100,5 @@ class ConnectBancoDados:
     
 if __name__ == '__main__':
     banco_de_dados = ConnectBancoDados()
+    banco_de_dados.showdonw()
     
