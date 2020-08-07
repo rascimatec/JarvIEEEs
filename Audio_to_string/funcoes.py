@@ -40,6 +40,7 @@ def intro():
     print(f'{"-"*len(msg)}\n{msg}\n{"-"*len(msg)}')
 
 
+#Está dando erro daqui pra baixo
 def verifica_nome(user_name):
     if user_name.starwith("Meu nome é"):
         user_name.replace("Meu nome é", "")

@@ -1,2 +1,8 @@
 
 Audio_to_string/PyAudio-0.2.11-cp38-cp38-win_amd64.whl
+*.pyc
+.idea/modules.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/JarvIEEEs.iml
+.idea/misc.xml
+.idea/vcs.xml

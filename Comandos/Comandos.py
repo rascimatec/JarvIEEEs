@@ -5,92 +5,132 @@ import wikipedia
 import webbrowser
 import os
 
-print('Inicializando Jarvieees')
+# print('Inicializando Jarvieees')
 
-senhor = 'Léo'
+senhor = 'senhor'
+engineSPK = pyttsx3.init('sapi5')
 
-engine = pyttsx3.init('sapi5')
-voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[0].id)
 
-def falar(text):
-    engine.say(text)
-    engine.runAndwait()
+def voice_setup():
+    """RATE"""
+    rate = engineSPK.getProperty('rate')
+    engineSPK.setProperty('rate', 180)  # Configura a velocidade da fala
 
-def desejo():
+    """VOLUME"""
+    volume = engineSPK.getProperty('volume')  # getting to know current volume level (min=0 and max=1)
+    engineSPK.setProperty('volume', 1.0)  # setting up volume level  between 0 and 1
+
+    """VOICE"""
+    voices = engineSPK.getProperty('voices')
+    # Por algum motivo o indice '1' altera o idioma e não a voz
+    engineSPK.setProperty('voice', voices[0].id)
+
+
+def fala_jarvieees(resposta):  # Recebe uma string e responde com a mesma em forma de áudio
+    engineSPK.say(resposta)
+    engineSPK.runAndWait()
+
+
+def saudacao():  # Serve para que o assistente realize uma saudação
     hour = int(datetime.datetime.now().hour)
 
-    if (hour >= 0 and hour < 12):
-        speak('Bom dia' + senhor)
+    if 0 <= hour < 12:
+        fala_jarvieees('Bom dia' + senhor)
 
-    elif (hour >= 12 and hour < 18):
-        speak('Boa tarde' + senhor)
+    elif 12 <= hour < 18:
+        fala_jarvieees('Boa tarde' + senhor)
 
     else:
-        speak('Boa noite' + senhor)
+        fala_jarvieees('Boa noite' + senhor)
 
-    speak('Eu sou Jarviees. Como eu poderia te ajudar?')
+    fala_jarvieees('Eu sou Jarviees. Como eu poderia te ajudar?')
 
-def comando():
+
+def comando():  # Serve para ouvir uma frase e retorná-la como uma string
     r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print('Ouvindo...')
-        audio = r.listen(source)
+    while True:  # Continuará neste loop até que a fala seja entendida
+        with sr.Microphone() as source:
+            r.adjust_for_ambient_noise(source, 0.75)  # Se 'adapta' aos ruídos externos
+            print('Ouvindo...')
+            audio = r.listen(source)
 
-    try:
-        print('Reconhecendo...')
-        pergunta = r.recognize_google(audio, language= 'pt')
-        print('Voce disse:{}'.format(pergunta))
+        try:
+            print('Reconhecendo...')
+            pergunta = r.recognize_google(audio, language='pt')
+            print('Voce disse:{}'.format(pergunta))
+            break
 
-    except Exception as e:
-        print('Fale de novo por favor')
-        pergunta = None
+        except Exception as e:  # Caso não compreenda o que foi dito
+            erro = 'Fale de novo por favor'  # Substituir por mensagens de erro do banco
+            fala_jarvieees(erro)
+            print(erro)
 
     return pergunta
 
 
-def main():
-
-    desejo()
-    pergunta = comando()
-
-    if 'wikipedia' in pergunta.lower():
-        speak('Pesquisando no wikipedia...')
+def acoes(pergunta):  # Possíveis ações que o assistente pode executar
+    pergunta = pergunta.lower()  # Torna todas as letras minúsculas
+    if 'wikipedia' in pergunta:
+        fala_jarvieees('Pesquisando no wikipedia...')
         pergunta = pergunta.replace('wikipedia', '')
-        results = wikipedia.summary(pergunta, sentence=2)
+        results = wikipedia.summary(pergunta, sentences=2)
         print(results)
-        speak(results)
+        fala_jarvieees(results)
         print('Pesquisa concluida' + senhor)
 
-    elif 'abrir youtube' in pergunta.lower():
+    # uma versão alternativa da ação acima, mas, não exige que a palavra chave é 'pesquise' ao invés
+    # de 'wikipedia'
+    elif 'pesquise' in pergunta:
+        fala_jarvieees('Pesquisando no wikipedia...')
+        pergunta = pergunta.replace('pesquise', '')
+        results = wikipedia.summary(pergunta, sentences=2)
+        print(results)
+        fala_jarvieees(results)
+        print('Pesquisa concluida' + senhor)
+
+    elif 'abrir youtube' in pergunta:
         url = 'youtube.com'
         chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
         webbrowser.get(chrome_path).open(url)
         print('O youtube foi aberto senhor' + senhor)
 
-
-    elif 'abrir google' in pergunta.lower():
+    elif 'abrir google' in pergunta:
         url = 'google.com'
         chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
         webbrowser.get(chrome_path).open(url)
 
-    elif 'abrir facebook' in pergunta.lower():
+    elif 'abrir facebook' in pergunta:
         url = 'facebook.com'
         chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
         webbrowser.get(chrome_path).open(url)
 
-    elif 'abrir portal do aluno':
+    elif 'abrir portal do aluno' in pergunta:
         url = 'senaiweb6.fieb.org.br:8080/web/app/edu/PortalEducacional/login/'
         chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
         webbrowser.get(chrome_path).open(url)
 
-    elif 'tocar musica' in pergunta.lower():
+    elif 'tocar musica' in pergunta:
         musicas_diretorio = 'pasta com musicas'
         musicas: os.listdir(musicas_diretorio)
         print(musicas)
         os.startfile(os.path.join(musicas, musicas[0]))
 
-    elif 'abrir bloco de notas' in pergunta.lower:
+    elif 'abrir bloco de notas' in pergunta:
         os.startfile('notepad.exe')
 
+    elif 'finalizar' in pergunta:
+        fala_jarvieees('Adeus!')
+        return
+    else:  # Ação não impementada ou conversação
+        fala_jarvieees('Sinto muito, ainda não sei como responder isso')  # Mensagem provisória de erro
+        print('Sinto muito, ainda não sei como responder isso')
 
+
+def main():
+    saudacao()
+    pergunta = comando()
+    print(pergunta)  # Apenas para que seja possível ver o que o assistente entedeu
+    acoes(pergunta)
+
+
+voice_setup()

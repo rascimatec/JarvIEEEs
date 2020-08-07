@@ -1,4 +1,4 @@
-from funcoes import *
+from Funcoes import *
 
 intro()
 while True:
