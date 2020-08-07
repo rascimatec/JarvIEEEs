@@ -11,7 +11,7 @@ class ConnectBancoDados:
                 print("Nao foi possivel conectar ao banco de dados")
 
     def insert_record (self):
-        #tabela 1 = acao , tabela 2 = comando, tabela 3 = dicionario
+        #tabela 2 = comando, tabela 3 = dicionario
 
         while True:
 
@@ -19,7 +19,8 @@ class ConnectBancoDados:
 
             if tabela == 2:
                 record = input("Digite o comando desejado :")
-                insert_command = "INSERT INTO comando(comando) VALUES('" + record + "')"
+                record1 = input("Digite a ação desejada :")
+                insert_command = "INSERT INTO comando(comando) VALUES('" + record + "','" + record1 + "')"
                 break
 
             elif tabela == 3:
@@ -68,6 +69,7 @@ class ConnectBancoDados:
         for row in rows:
             retorno = row[0]
         print(retorno)        
+        #Apenas para testes, falta apenas integraçao com o restante do codigo
 
     def showdonw (self):
 
