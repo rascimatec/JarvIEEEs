@@ -7,6 +7,7 @@ version = "0.0.1"
 reproducao = pyttsx3.init('sapi5')
 
 
+
 def fala_jarvieees(resposta):
     reproducao.say(resposta)
     reproducao.runAndWait()

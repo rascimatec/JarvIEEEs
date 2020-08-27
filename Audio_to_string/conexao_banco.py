@@ -35,11 +35,11 @@ class ConnectBancoDados:
             
         self.cursor.execute(insert_command)
     
-    def consulta (self):
+    def consulta (self, msg):
 
-        fala = 'abra'
+        fala = msg
 
-        self.cursor.execute(f"SELECT comando FROM comando WHERE comando LIKE '{fala}'")
+        self.cursor.execute(f"SELECT comando FROM comando WHERE comando LIKE '{fala}%'")
         rows = self.cursor.fetchall()
 
         for row in rows:
@@ -73,5 +73,5 @@ class ConnectBancoDados:
     
 if __name__ == '__main__':
     banco_de_dados = ConnectBancoDados()
-    banco_de_dados.consulta()
+    banco_de_dados.consulta('')
     banco_de_dados.connection.close()
