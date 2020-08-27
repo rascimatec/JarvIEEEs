@@ -6,3 +6,6 @@ Audio_to_string/PyAudio-0.2.11-cp38-cp38-win_amd64.whl
 .idea/JarvIEEEs.iml
 .idea/misc.xml
 .idea/vcs.xml
+Audio_to_string/db.sqlite3-wal
+Audio_to_string/db.sqlite3-shm
+Audio_to_string/db.sqlite3
