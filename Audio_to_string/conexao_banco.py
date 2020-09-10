@@ -1,7 +1,7 @@
 import psycopg2
 
 class ConnectBancoDados:
-    def __init__(self):
+    def __init__(self): #são os parametros para a conexão com o banco de dados
         try:
             self.connection = psycopg2.connect(
                 "dbname='upsaude19' user='upsaude19' host='pgsql.upsaude.net.br' password='080901' port='5432'")
@@ -10,7 +10,7 @@ class ConnectBancoDados:
         except:
                 print("Nao foi possivel conectar ao banco de dados")
 
-    def insert_record (self):
+    def insert_record (self): #função para adicionar elementos as tabelas.
         #tabela 2 = comando, tabela 3 = dicionario
 
         while True:
@@ -43,13 +43,13 @@ class ConnectBancoDados:
     
     def consulta (self, msg):
 
-        x = msg.strip()
-        x = x.lower()
-        x = x.split()
-        y = len(x)
-        n = 0
+        x = msg.strip() #strip vai tirar espaço desnecessário (a mais)
+        x = x.lower() #deixa toda string minuscula
+        x = x.split() #se para por palavra em uma lista
+        y = len(x) #conta os elementos da lista
+        n = 0 # variável auxiliar do while (linha 53)
 
-        while(n != y):
+        while(n != y): # percorre todos os elementos da lista e comparando com o banco de dados
 
             self.cursor.execute(f"SELECT caminho FROM comando JOIN aplicativo ON comando.id_comando = aplicativo.id_comando WHERE comando.comando = '{x[n]}' AND aplicativo.aplicativo = '{x[n+1]}'")
             rows = self.cursor.fetchall()
@@ -60,7 +60,7 @@ class ConnectBancoDados:
 
             n = n + 1
 
-    def showdonw (self):
+    def showdonw (self): #exibe a tabela do banco de dados
 
         while True:
 
@@ -88,7 +88,7 @@ class ConnectBancoDados:
         for cat in cats:
             print(f"each {tabela} : {cat}")
     
-if __name__ == '__main__':
+if __name__ == '__main__': #é a conexão com o banco.
     banco_de_dados = ConnectBancoDados()
     retorno = banco_de_dados.consulta("Paige abra facebook porfavor")
     banco_de_dados.connection.close()

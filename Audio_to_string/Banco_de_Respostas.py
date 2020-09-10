@@ -1,3 +1,4 @@
+#referências em arquivo funções.py (possivelmente vai sair)
 lista_erros = [
     "Não entendi",
     "Desculpe, mas não entendi",
