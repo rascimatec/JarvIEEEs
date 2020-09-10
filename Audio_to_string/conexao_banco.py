@@ -17,10 +17,16 @@ class ConnectBancoDados:
 
             tabela = int(input("Qual tabela deseja modificar ? :"))
 
-            if tabela == 2:
+            if tabela == 1:
+                record = input(int("Digite qual comando deseja atribuir :"))
+                record1 = input("Digite o nome do aplicativo :")
+                record2 = input("Digite o caminho do aplicativo :")
+                insert_command = "INSERT INTO aplicativo(id_comando, aplicativo, caminho) VALUES('" + record +"','" + record1 + "','" + record2 + "') "
+
+            elif tabela == 2:
                 record = input("Digite o comando desejado :")
                 record1 = input("Digite a ação desejada :")
-                insert_command = "INSERT INTO comando(comando) VALUES('" + record + "','" + record1 + "')"
+                insert_command = "INSERT INTO comando(comando, acao) VALUES('" + record + "','" + record1 + "')"
                 break
 
             elif tabela == 3:
@@ -37,15 +43,22 @@ class ConnectBancoDados:
     
     def consulta (self, msg):
 
-        fala = msg
+        x = msg.strip()
+        x = x.lower()
+        x = x.split()
+        y = len(x)
+        n = 0
 
-        self.cursor.execute(f"SELECT comando FROM comando WHERE comando LIKE '{fala}%'")
-        rows = self.cursor.fetchall()
+        while(n != y):
 
-        for row in rows:
-            retorno = row[0]
-        
-            print(retorno)
+            self.cursor.execute(f"SELECT caminho FROM comando JOIN aplicativo ON comando.id_comando = aplicativo.id_comando WHERE comando.comando = '{x[n]}' AND aplicativo.aplicativo = '{x[n+1]}'")
+            rows = self.cursor.fetchall()
+
+            for row in rows:
+                retorno = row[0]
+                return(retorno)
+
+            n = n + 1
 
     def showdonw (self):
 
@@ -62,16 +75,21 @@ class ConnectBancoDados:
                 self.cursor.execute("SELECT * FROM dicionario")
                 tabela = "dicionario"
                 break
-
+            
+            elif tabela == 3:
+                self.cursor.execute("SELECT * FROM aplicativo")
+                tabela = "aplicativo"
+                break
             else:
-                print("Tabela invalida, use numerico de 1 a 2")
+                print("Tabela invalida, use numerico de 1 a 3")
 
-            cats = self.cursor.fetchall()
+        cats = self.cursor.fetchall()
 
         for cat in cats:
             print(f"each {tabela} : {cat}")
     
 if __name__ == '__main__':
     banco_de_dados = ConnectBancoDados()
-    banco_de_dados.consulta('')
+    retorno = banco_de_dados.consulta("Paige abra facebook porfavor")
     banco_de_dados.connection.close()
+    print(retorno)

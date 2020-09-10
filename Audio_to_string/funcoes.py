@@ -1,7 +1,7 @@
 import speech_recognition as sr
 import pyttsx3
 from random import choice
-from Banco_de_Respostas import *
+from Audio_to_string import Conexao_Banco
 
 version = "0.0.1"
 reproducao = pyttsx3.init('sapi5')
