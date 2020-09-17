@@ -5,6 +5,7 @@ import wikipedia
 import webbrowser
 import os
 
+
 # print('Inicializando Jarvieees')
 
 senhor = 'senhor'
@@ -117,6 +118,19 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
 
     elif 'abrir bloco de notas' in pergunta:
         os.startfile('notepad.exe')
+
+    elif 'fechar' in pergunta:
+        p = str(input('digite o nome do processo: ')) # definir o nome do processo a ser finalizado.
+        os.system('taskkill /im '+(p)) #os.system permite que você digite diretamente no cmd. taskkill /im (nome do processo) é um comando do cmd que finaliza processos.
+
+    elif 'desligar computador' in pergunta:
+        os.system('shutdown /s') #os.system permite que você digite diretamente no cmd. shutdown /s é um comando do cmd para desligar a máquina.
+
+    elif 'reiniciar computador' in pergunta:
+        os.system('shutdown /r /t 0') #shutdown /r /t 0 é um comando do cmd para reiniciar a máquina.
+
+    elif 'hibernar computador' in pergunta:
+        os.system('shutdown /h') #shutdown /h é um comando do cmd para hiberna a máquina.
 
     elif 'finalizar' in pergunta:
         fala_jarvieees('Adeus!')
