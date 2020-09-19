@@ -1,15 +1,22 @@
 import pyttsx3
 import speech_recognition as sr
-import datetime
+#import datetime
 import wikipedia
 import webbrowser
 import os
-
+from datetime import datetime, timedelta
+from time import sleep
 
 # print('Inicializando Jarvieees')
 
 senhor = 'senhor'
+version = "1.0.0"
 engineSPK = pyttsx3.init('sapi5')
+
+
+def intro():
+    msg = f'Assistente versão {version}'
+    print(f'{"-"*len(msg)}\n{msg}\n{"-"*len(msg)}')
 
 
 def voice_setup():
@@ -33,7 +40,7 @@ def fala_jarvieees(resposta):  # Recebe uma string e responde com a mesma em for
 
 
 def saudacao():  # Serve para que o assistente realize uma saudação
-    hour = int(datetime.datetime.now().hour)
+    hour = int(datetime.now().hour)
 
     if 0 <= hour < 12:
         fala_jarvieees('Bom dia' + senhor)
@@ -67,6 +74,65 @@ def comando():  # Serve para ouvir uma frase e retorná-la como uma string
             print(erro)
 
     return pergunta
+
+
+#erro para números de duas ou mais palavra ex: vinte e um
+def string_to_int(frase):
+    # adaptado de https://www.geeksforgeeks.org/python-convert-numeric-words-to-numbers/
+    help_dict = {
+        'um': '1',
+        'uma': '1',
+        'dois' : '2',
+        'duas': '2',
+        'três': '3',
+        'quatro': '4',
+        'cinco': '5',
+        'seis': '6',
+        'sete': '7',
+        'oito': '8',
+        'nove': '9',
+        'dez': '10',
+        'onze': '11',
+        'doze': '12',
+        'treze': '13',
+        'catorze': '14',
+        'quinze': '15',
+        'dezeseis': '17',
+        'dezoito': '18',
+        'dezenove': '19',
+        'vinte': '20',
+        'vinte e um': 21,
+    }
+
+    # Convert numeric words to numbers
+    # Using join() + split()
+    res = ""  # retorna essa frase caso não haja um número
+    for ele in frase.split():
+        if ele in help_dict:
+            res += help_dict[ele] + ' '
+    return res
+
+
+# Seria mais interessante se essa função funcionasse em paralelo e não interrompesse todo o programa
+def timer(frase):
+    now = datetime.now().time()
+    tempo = int(string_to_int(frase))
+    print(tempo)
+    if tempo != "sem numero":
+        # Just use January the first, 2000
+        d1 = datetime(2000, 1, 1, now.hour, now.minute, now.second)
+        d2 = d1 + timedelta(hours=0, minutes=0, seconds=tempo)  # Deve ser substituido pelo tempo dito
+        fala_jarvieees(f'Te aviso quando der {d2.hour} e {d2.minute}')
+        print(d2.time())
+
+        while True:
+            now = datetime.now().time()
+            time = datetime(2000, 1, 1, now.hour, now.minute, now.second)
+            print(d2 - time)
+            if d2 - time <= timedelta(0, 0, 0, 0, 0, 0):
+                break
+            sleep(1)
+        fala_jarvieees('Timer concluído!')
 
 
 def acoes(pergunta):  # Possíveis ações que o assistente pode executar
@@ -135,6 +201,10 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
     elif 'finalizar' in pergunta:
         fala_jarvieees('Adeus!')
         return
+
+    elif 'timer' in pergunta:
+        timer(pergunta)
+
     else:  # Ação não impementada ou conversação
         fala_jarvieees('Sinto muito, ainda não sei como responder isso')  # Mensagem provisória de erro
         print('Sinto muito, ainda não sei como responder isso')

@@ -1,4 +1,4 @@
-from Funcoes import *
+from Audio_to_string.funcoes import *
 
 intro()
 while True:
