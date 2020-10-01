@@ -84,7 +84,23 @@ def comando():  # Serve para ouvir uma frase e retorná-la como uma string
     return pergunta
 
 
-#erro para números de duas ou mais palavra ex: vinte e um
+def comando_stdby():  # Serve para ouvir uma frase e retorná-la como uma string
+    r = sr.Recognizer()
+    while True:  # Continuará neste loop até que a fala seja entendida
+        with sr.Microphone() as source:
+            r.adjust_for_ambient_noise(source, 0.75)  # Se 'adapta' aos ruídos externos
+            audio = r.listen(source)
+
+        try:
+            pergunta = r.recognize_google(audio, language='pt')
+            break
+
+        except Exception as e:  # Caso não compreenda o que foi dito
+            erro = 'Fale de novo por favor'  # Substituir por mensagens de erro do banco
+    return pergunta
+
+
+# erro para números de duas ou mais palavra ex: vinte e um
 def string_to_int(frase):
     # adaptado de https://www.geeksforgeeks.org/python-convert-numeric-words-to-numbers/
     help_dict = {
@@ -213,7 +229,7 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
         timer(pergunta)
 
     elif nome_assistente in pergunta:
-        fala_jarvieees('Estou aqui' + senhor)
+        fala_jarvieees('Estou aqui ' + senhor)
 
     else:  # Ação não impementada ou conversação
         fala_jarvieees('Sinto muito, ainda não sei como responder isso')  # Mensagem provisória de erro
@@ -227,13 +243,16 @@ def main():
     acoes(pergunta)
 
 
-# Função semelhante à função main(), com a diferença da aplicação do funcionamento em stand-by
+# Função semelhante a função main(), com a diferença da aplicação do funcionamento em stand-by
 def main_stdby():
     start = True   # Estado inicial do assistente: ativo(True) ou standby(False)
     fim = False     # Se um dos comandos de finalização for dito o programa é incerrado
     #saudacao()
     while not fim:
-        pergunta = comando()
+        if start:
+            pergunta = comando()
+        else:
+            pergunta = comando_stdby()
 
         if nome_assistente in pergunta:    # Se o nome do assistente for dito
             start = True
