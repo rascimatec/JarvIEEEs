@@ -1,11 +1,11 @@
 import _thread
-from Comandos import *
+from Geral.Comandos.Comandos import *
+#from Comandos import *
 import datetime
 from datetime import date, datetime, time, timedelta
 from time import sleep
-from Alarme import *
+#from Alarme import *
 #import Comandos.Alarme
-
 
 '''env = {'HOME': 'C:\Program Files (x86)\Dev-Cpp'}
 exec_path = os.get_exec_path(env)
@@ -17,7 +17,7 @@ print(exec_path)'''
 #print(1 + int(string_to_int('catorze')))
 #timer('catorze minutos')
 #tempo = string_to_int('vinte')
-_thread.start_new_thread(timer, (0, 0, 4))
-#print(tempo)
+#_thread.start_new_thread(timer, (0, 0, 4))
+main_stdby()
 #main()
-print('Finalizou')
+#print('Finalizou')

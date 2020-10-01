@@ -1,11 +1,17 @@
 
-Audio_to_string/PyAudio-0.2.11-cp38-cp38-win_amd64.whl
+Ignorados/PyAudio-0.2.11-cp38-cp38-win_amd64.whl
 *.pyc
 .idea/modules.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/JarvIEEEs.iml
 .idea/misc.xml
 .idea/vcs.xml
-Audio_to_string/db.sqlite3-wal
-Audio_to_string/db.sqlite3-shm
-Audio_to_string/db.sqlite3
+Ignorados/db.sqlite3-wal
+Ignorados/db.sqlite3-shm
+Ignorados/db.sqlite3
+Pycache\__pycache__\Alarme.cpython-38.pyc
+Pycache\__pycache__\Comandos.cpython-38.pyc
+*.sqlite3-wal
+Geral/Auxiliar/db.sqlite3-shm
+Geral/Auxiliar/db.sqlite3
+Teste/db.sqlite3

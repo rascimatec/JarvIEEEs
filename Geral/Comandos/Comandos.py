@@ -9,8 +9,11 @@ from time import sleep
 
 # print('Inicializando Jarvieees')
 
-senhor = 'senhor'
-version = "1.0.0"
+# Variaveis globais do código
+nome_assistente = 'assistente'     # nome do assistente
+senhor = 'senhor'       # Como o assistente chamará o usuário
+version = "1.0.0"       # apenas um valor arbitrário para indicar a versão atual do software
+finalizacao = ["adeus", "finalizar", "tchau"]  # Lista de comandos usados para hibernar o assistente
 engineSPK = pyttsx3.init('sapi5')
 
 
@@ -35,6 +38,7 @@ def voice_setup():
 
 
 def fala_jarvieees(resposta):  # Recebe uma string e responde com a mesma em forma de áudio
+    print(nome_assistente + ' ' + resposta)
     engineSPK.say(resposta)
     engineSPK.runAndWait()
 
@@ -54,6 +58,10 @@ def saudacao():  # Serve para que o assistente realize uma saudação
     fala_jarvieees('Eu sou Jarviees. Como eu poderia te ajudar?')
 
 
+def despedida():        # Serve apenas para o assistente se depedir
+    fala_jarvieees('Adeus!')
+
+
 def comando():  # Serve para ouvir uma frase e retorná-la como uma string
     r = sr.Recognizer()
     while True:  # Continuará neste loop até que a fala seja entendida
@@ -65,12 +73,12 @@ def comando():  # Serve para ouvir uma frase e retorná-la como uma string
         try:
             print('Reconhecendo...')
             pergunta = r.recognize_google(audio, language='pt')
-            print('Voce disse:{}'.format(pergunta))
+            #print('Voce disse:{}'.format(pergunta))
             break
 
         except Exception as e:  # Caso não compreenda o que foi dito
             erro = 'Fale de novo por favor'  # Substituir por mensagens de erro do banco
-            fala_jarvieees(erro)
+            #fala_jarvieees(erro)
             print(erro)
 
     return pergunta
@@ -199,11 +207,13 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
         os.system('shutdown /h') #shutdown /h é um comando do cmd para hiberna a máquina.
 
     elif 'finalizar' in pergunta:
-        fala_jarvieees('Adeus!')
-        return
+        despedida()
 
     elif 'timer' in pergunta:
         timer(pergunta)
+
+    elif nome_assistente in pergunta:
+        fala_jarvieees('Estou aqui' + senhor)
 
     else:  # Ação não impementada ou conversação
         fala_jarvieees('Sinto muito, ainda não sei como responder isso')  # Mensagem provisória de erro
@@ -217,4 +227,30 @@ def main():
     acoes(pergunta)
 
 
-voice_setup()
+# Função semelhante à função main(), com a diferença da aplicação do funcionamento em stand-by
+def main_stdby():
+    start = True   # Estado inicial do assistente: ativo(True) ou standby(False)
+    fim = False     # Se um dos comandos de finalização for dito o programa é incerrado
+    #saudacao()
+    while not fim:
+        pergunta = comando()
+
+        if nome_assistente in pergunta:    # Se o nome do assistente for dito
+            start = True
+
+        if 'valeu' in pergunta:
+            fala_jarvieees('Me chame novamente se precisar')
+            start = False
+
+        if start and not fim:   # Se não estiver em standby nem em finalização
+            for c in finalizacao:
+                if c in pergunta:
+                    fim = True
+                    despedida()
+                    return
+
+            print(pergunta)  # Apenas para que seja possível ver o que o assistente entedeu
+            acoes(pergunta)  # Função principal responsável pela maior parte das ações
+
+
+voice_setup()                # Configura a voz do assistente

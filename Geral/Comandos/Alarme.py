@@ -43,7 +43,8 @@ def timer(hora=0, minuto=0, segundo=0):
 
 #Se importar com essas 4 linhas dá problema
 #Encontrar outra solução ou implementar diferente
+'''
 while not thread_started:   # não permite que o programa finalize antes de executar a thread
     pass
 while num_thread > 0:       # não permite que o programa finalize se houver alguma thread em execução
-    pass
+    pass'''
