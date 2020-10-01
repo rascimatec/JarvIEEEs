@@ -100,6 +100,5 @@ class ConnectBancoDados:
 
 if __name__ == '__main__': #é a conexão com o banco.
     banco_de_dados = ConnectBancoDados() #inicio da conexao  
-    retorno = banco_de_dados.consulta("Paige abra facebook porfavor") 
-    banco_de_dados.connection.close() #fechamento da conexao
+    retorno = banco_de_dados.consulta("Paige abra facebook porfavor")
     print(retorno)
