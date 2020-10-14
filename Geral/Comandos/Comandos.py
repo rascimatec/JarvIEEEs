@@ -6,6 +6,12 @@ import webbrowser
 import os
 from datetime import datetime, timedelta
 from time import sleep
+from Geral.Auxiliar.Ponte import *
+
+if __name__ == '__main__': #é a conexão com o banco.
+    banco_de_dados = ConnectBancoDados() #inicio da conexao
+    retorno = banco_de_dados.consulta("Paige abra o trello porfavor")
+    print(retorno)
 
 # print('Inicializando Jarvieees')
 
