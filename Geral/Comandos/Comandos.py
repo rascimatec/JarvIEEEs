@@ -6,6 +6,7 @@ import webbrowser
 import os
 from datetime import datetime, timedelta
 from time import sleep
+import keyboard
 
 # print('Inicializando Jarvieees')
 
@@ -157,6 +158,19 @@ def timer(frase):
                 break
             sleep(1)
         fala_jarvieees('Timer concluído!')
+
+
+# Apenas ideias ainda não implementadas
+def write_notepad():
+    keyboard.press_and_release('shift, space')
+    frase = ''
+    keyboard.write(frase) # A frase vem aqui
+
+    # Blocks until you press esc.
+    keyboard.wait('esc')
+
+    # Block forever, like `while True`.
+    keyboard.wait()
 
 
 def acoes(pergunta):  # Possíveis ações que o assistente pode executar
