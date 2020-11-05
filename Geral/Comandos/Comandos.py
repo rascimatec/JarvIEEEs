@@ -45,7 +45,7 @@ def voice_setup():
 
 
 def fala_jarvieees(resposta):  # Recebe uma string e responde com a mesma em forma de áudio
-    print(nome_assistente + ' ' + resposta)
+    print(nome_assistente + ': ' + resposta)
     engineSPK.say(resposta)
     engineSPK.runAndWait()
 
@@ -54,15 +54,85 @@ def saudacao():  # Serve para que o assistente realize uma saudação
     hour = int(datetime.now().hour)
 
     if 0 <= hour < 12:
-        fala_jarvieees('Bom dia' + senhor)
+        fala_jarvieees('Bom dia ' + senhor)
 
     elif 12 <= hour < 18:
-        fala_jarvieees('Boa tarde' + senhor)
+        fala_jarvieees('Boa tarde ' + senhor)
 
     else:
-        fala_jarvieees('Boa noite' + senhor)
+        fala_jarvieees('Boa noite ' + senhor)
 
     fala_jarvieees('Eu sou Jarviees. Como eu poderia te ajudar?')
+
+
+def info_data():
+    # INCOMPLETO
+    number_to_day = {
+        '00': 'meia noite',
+        '01': 'primeiro',
+        '02': 'dois',
+        '03': 'três',
+        '04': 'quatro',
+        '05': 'cinco',
+        '06': 'seis',
+        '07': 'sete',
+        '08': 'oito',
+        '09': 'nove',
+        '10': 'dez',
+        '11': 'onze',
+        '12': 'doze',
+        '13': 'treze',
+        '14': 'catorze',
+        '15': 'quinze',
+        '17': 'dezeseis',
+        '18': 'dezoito',
+        '19': 'dezenove',
+        '20': 'vinte',
+        '21': 'vinte e um',
+        '22': 'vinte e dois',
+        '23': 'vinte e três',
+        '24': 'vinte e quatro',
+        '25': 'vinte e cinco',
+        '26': 'vinte e seis',
+        '27': 'vinte e sete',
+        '28': 'vinte e oite',
+        '29': 'vinte e nove',
+        '30': 'trinta',
+        '31': 'trinta e um'
+    }
+    # INCOMPLETO
+
+    number_to_month = {
+        '01': 'janeiro',
+        '02': 'fevereiro',
+        '03': 'março',
+        '04': 'abril',
+        '05': 'maio',
+        '06': 'junho',
+        '07': 'julho',
+        '08': 'agosto',
+        '09': 'setembro',
+        '10': 'outubro',
+        '11': 'novembro',
+        '12': 'dezembro'
+    }
+    data = str(datetime.now().date())
+
+    # fatiamento da string original para separar informações e conversão dos algarismos em palavras
+    # Original: YEAR-MT-DY (ano-mês-dia)
+    dia = number_to_day[data[8:]]  # 2 últimos caracteres
+    mes = number_to_month[data[5:7]]    # 5° e 6° dígito da data
+    ano = data[0:4]     # Primeiros 4 caracteres
+    frase = f'hoje é {dia} de {mes} de {ano}'
+    fala_jarvieees(frase)
+
+
+def info_hora():
+    tempo = str(datetime.now().time())
+    hora = tempo[:2]
+    minuto = tempo[3:5]
+    frase = f'são {hora} e {minuto}'
+    fala_jarvieees(frase)
 
 
 def despedida():        # Serve apenas para o assistente se depedir
@@ -70,8 +140,9 @@ def despedida():        # Serve apenas para o assistente se depedir
 
 
 def comando():  # Serve para ouvir uma frase e retorná-la como uma string
-    r = sr.Recognizer()
+    #r = sr.Recognizer()
     while True:  # Continuará neste loop até que a fala seja entendida
+        r = sr.Recognizer()  # essa linha de código foi movida a fim de testar mudanças na velocidade
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source, 0.75)  # Se 'adapta' aos ruídos externos
             print('Ouvindo...')
@@ -92,8 +163,9 @@ def comando():  # Serve para ouvir uma frase e retorná-la como uma string
 
 
 def comando_stdby():  # Serve para ouvir uma frase e retorná-la como uma string
-    r = sr.Recognizer()
+    #r = sr.Recognizer()
     while True:  # Continuará neste loop até que a fala seja entendida
+        r = sr.Recognizer()
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source, 0.75)  # Se 'adapta' aos ruídos externos
             audio = r.listen(source)
@@ -132,7 +204,7 @@ def string_to_int(frase):
         'dezoito': '18',
         'dezenove': '19',
         'vinte': '20',
-        'vinte e um': 21,
+        'vinte e um': '21',
     }
 
     # Convert numeric words to numbers
@@ -177,6 +249,32 @@ def write_notepad():
 
     # Block forever, like `while True`.
     keyboard.wait()
+
+
+# função para finalizar um processo em execução
+
+def pkill(process_name):
+    processos = os.popen('tasklist').readlines()
+    for i in processos:
+        # print(i[0:27])
+        palavra = ''
+        for n in i:
+            if n != ' ':
+                palavra += n
+            else:
+                break
+        print(f'palavra:{palavra}  i:{i}')
+        if process_name.strip() == palavra.strip():
+            print('\n\nkill process\n\n')
+        else:
+            #processo não encontrado
+            return 0
+    try:
+        killed = os.system('taskkill /im ' + process_name)
+    except Exception as e:
+        print('Erro!!')
+        killed = 0
+    return killed
 
 
 def acoes(pergunta):  # Possíveis ações que o assistente pode executar
@@ -250,6 +348,12 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
 
     elif nome_assistente in pergunta:
         fala_jarvieees('Estou aqui ' + senhor)
+
+    elif pergunta == 'que dia é hoje':  # não é uma boa solução porque só aceita essa frase como chave
+        info_data()
+
+    elif pergunta == 'que horas são':
+        info_hora()
 
     else:  # Ação não impementada ou conversação
         fala_jarvieees('Sinto muito, ainda não sei como responder isso')  # Mensagem provisória de erro
