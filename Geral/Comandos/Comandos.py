@@ -1,6 +1,6 @@
 import pyttsx3
 import speech_recognition as sr
-#import datetime
+import datetime
 import wikipedia
 import webbrowser
 import os
@@ -9,16 +9,12 @@ from time import sleep
 from Geral.Auxiliar.Ponte import *
 
 
-if __name__ == '__main__': #é a conexão com o banco.
-    banco_de_dados = ConnectBancoDados() #inicio da conexao
-    retorno = banco_de_dados.consulta("Paige abra trello porfavor")
-    print(retorno)
 
 # print('Inicializando Jarvieees')
 
 # Variaveis globais do código
 nome_assistente = 'assistente'     # nome do assistente
-senhor = 'senhor'       # Como o assistente chamará o usuário
+senhor = ' senhor'       # Como o assistente chamará o usuário
 version = "1.0.0"       # apenas um valor arbitrário para indicar a versão atual do software
 finalizacao = ["adeus", "finalizar", "tchau"]  # Lista de comandos usados para hibernar o assistente
 engineSPK = pyttsx3.init('sapi5')
@@ -132,7 +128,7 @@ def string_to_int(frase):
         'dezoito': '18',
         'dezenove': '19',
         'vinte': '20',
-        'vinte e um': 21,
+        'vinte e um': '21',
     }
 
     # Convert numeric words to numbers
@@ -167,84 +163,31 @@ def timer(frase):
 
 
 def acoes(pergunta):  # Possíveis ações que o assistente pode executar
-    pergunta = pergunta.lower()  # Torna todas as letras minúsculas
-    if 'wikipedia' in pergunta:
-        fala_jarvieees('Pesquisando no wikipedia...')
-        pergunta = pergunta.replace('wikipedia', '')
-        results = wikipedia.summary(pergunta, sentences=2)
-        print(results)
-        fala_jarvieees(results)
-        print('Pesquisa concluida' + senhor)
+    try:
 
-    # uma versão alternativa da ação acima, mas, não exige que a palavra chave é 'pesquise' ao invés
-    # de 'wikipedia'
-    elif 'pesquise' in pergunta:
-        fala_jarvieees('Pesquisando no wikipedia...')
-        pergunta = pergunta.replace('pesquise', '')
-        results = wikipedia.summary(pergunta, sentences=2)
-        print(results)
-        fala_jarvieees(results)
-        print('Pesquisa concluida' + senhor)
+        parametro = banco_de_dados.consulta_parametro(pergunta)  #consulta de procedimento a ser realizado EX: (abrir arq ou pesquisa)
+        path = banco_de_dados.consulta(pergunta)                 #consulta de Aplicativo EX: (abrir oque ? ou pesquisar oque ?)
 
-    elif 'abrir youtube' in pergunta:
-        url = 'youtube.com'
-        chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
-        webbrowser.get(chrome_path).open(url)
-        print('O youtube foi aberto senhor' + senhor)
+        print(path)
+        if 'wikipedia' in parametro:  #o modelo de pesquisa foi mantido sendo somente adapitado para o banco
+            fala_jarvieees('Pesquisando no wikipedia...')
+            busca = path.replace('wikipedia', '')
+            results = wikipedia.summary(busca, sentences=2)
+            print(results)
+            fala_jarvieees(results)
+            print('Pesquisa concluida' + senhor)
 
-    elif 'abrir google' in pergunta:
-        url = 'google.com'
-        chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
-        webbrowser.get(chrome_path).open(url)
+        elif 'startfile' in parametro: #aqui ocorrem todas aberturas de programas e sites
+            os.startfile(path)
 
-    elif 'abrir facebook' in pergunta:
-        url = 'facebook.com'
-        chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
-        webbrowser.get(chrome_path).open(url)
+        elif 'system' in parametro:    #aqui ocorrem todos os comandos em cmd
+            os.system(path)
 
-    elif 'abrir portal do aluno' in pergunta:
-        url = 'senaiweb6.fieb.org.br:8080/web/app/edu/PortalEducacional/login/'
-        chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
-        webbrowser.get(chrome_path).open(url)
-
-    elif 'tocar musica' in pergunta:
-        musicas_diretorio = 'pasta com musicas'
-        musicas: os.listdir(musicas_diretorio)
-        print(musicas)
-        os.startfile(os.path.join(musicas, musicas[0]))
-
-    elif 'abrir bloco de notas' in pergunta:
-        os.startfile('notepad.exe')
-
-    elif 'fechar' in pergunta:
-        p = str(input('digite o nome do processo: ')) # definir o nome do processo a ser finalizado.
-        os.system('taskkill /im '+(p)) #os.system permite que você digite diretamente no cmd. taskkill /im (nome do processo) é um comando do cmd que finaliza processos.
-
-    elif 'desligar computador' in pergunta:
-        os.system('shutdown /s') #os.system permite que você digite diretamente no cmd. shutdown /s é um comando do cmd para desligar a máquina.
-
-    elif 'reiniciar computador' in pergunta:
-        os.system('shutdown /r /t 0') #shutdown /r /t 0 é um comando do cmd para reiniciar a máquina.
-
-    elif 'hibernar computador' in pergunta:
-        os.system('shutdown /h') #shutdown /h é um comando do cmd para hiberna a máquina.
-
-    elif 'finalizar' in pergunta:
-        despedida()
-
-    elif 'timer' in pergunta:
-        timer(pergunta)
-
-    elif nome_assistente in pergunta:
-        fala_jarvieees('Estou aqui ' + senhor)
-
-    else:  # Ação não impementada ou conversação
-        fala_jarvieees('Sinto muito, ainda não sei como responder isso')  # Mensagem provisória de erro
-        print('Sinto muito, ainda não sei como responder isso')
-
+    except:                            # Anti-Erro
+        print("no")
 
 def main():
-    saudacao()
+
     pergunta = comando()
     print(pergunta)  # Apenas para que seja possível ver o que o assistente entedeu
     acoes(pergunta)
@@ -252,7 +195,7 @@ def main():
 
 # Função semelhante a função main(), com a diferença da aplicação do funcionamento em stand-by
 def main_stdby():
-    start = True   # Estado inicial do assistente: ativo(True) ou standby(False)
+    start = True    # Estado inicial do assistente: ativo(True) ou standby(False)
     fim = False     # Se um dos comandos de finalização for dito o programa é incerrado
     #saudacao()
     while not fim:
@@ -278,5 +221,7 @@ def main_stdby():
             print(pergunta)  # Apenas para que seja possível ver o que o assistente entedeu
             acoes(pergunta)  # Função principal responsável pela maior parte das ações
 
-
-voice_setup()                # Configura a voz do assistente
+if __name__ == '__main__':  # é a conexão com o banco.
+    banco_de_dados = ConnectBancoDados()  # inicio da conexao
+    voice_setup()         # Configura a voz do assistente
+    main_stdby()

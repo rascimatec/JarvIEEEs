@@ -11,10 +11,14 @@ import psycopg2
 #
 #if __name__ == '__main__': #é a conexão com o banco.
 #    banco_de_dados = ConnectBancoDados() #inicio da conexao
-#    retorno = banco_de_dados.consulta("Paige abra o trello porfavor")
+#    retorno = banco_de_dados.consulta("Paige se nao for incomodo abra o youtube porfavor")
 #    print(retorno)
 #
+#retorno = banco_de_dados.consulta("abra o youtube")
+#print(retorno)
+#
 #   SEMPRE QUE FOREM FAZER UMA CONSULTA SERA NESCESSARIO ESSE IF
+#   (Somente pela primeira vez, nas demais a consulta pode ser realizada como no exemplo de baixo)
 #   JA QUE A FUNÇAO CONSULTA TEM RETORNO VCS PRECISAM GUARDA-LA EM UM VARIAVEL DE SEU INTERESSE
 #   O PRINT PODE SAIR DALI ELE ESTA APENAS PARA EFEITOS DE TESTE
 #
@@ -76,15 +80,15 @@ class ConnectBancoDados:
         try:
             x = msg.strip() #strip vai tirar espaço desnecessário (a mais)
             x = x.lower() #deixa toda string minuscula
-            x = x.split() #se para por palavra em uma lista
+            x = x.split() #separa a string por palavra em uma lista
             y = len(x) #conta os elementos da lista
-            n = 0 # variável auxiliar do while (linha 53)
+            n = 0 # variável auxiliar do while
 
             while(n != y): # percorre todos os elementos da lista e comparando com o banco de dados
 
 
                 self.cursor.execute(
-                    f"SELECT caminho FROM comando JOIN aplicativo ON comando.id_comando = aplicativo.id_comando WHERE comando.comando = '{x[n]}' AND aplicativo.aplicativo = '{x[n + 2]}' AND aplicativo.artigo = '{x[n + 1]}'")
+                    f"SELECT caminho FROM comando JOIN aplicativo ON comando.id_comando = aplicativo.id_comando JOIN dicionario ON aplicativo.id_dicionario = dicionario.id_dicionario WHERE comando.comando = '{x[n]}' AND aplicativo.aplicativo = '{x[n + 2]}' AND aplicativo.artigo ='{x[n + 1]}' OR dicionario.sinonimo = '{x[n]}' AND aplicativo.artigo = '{x[n + 1]}' AND aplicativo.aplicativo = '{x[n + 2]}'")
                 rows = self.cursor.fetchall()
             
                 #Select é o comando em sql para realizar consultas
@@ -92,15 +96,58 @@ class ConnectBancoDados:
 
                 for row in rows:
                     retorno = row[0]
+                    if retorno == "pesq":       #Processo feito apenas para pesquisar, ja que ela precisam
+                        x = msg.strip()         #de um retorno diferente de um aplicativo
+                        x = x.lower()
+                        y = x.find("google")    #Verificando se o google encontrase na frase
+                        if y == -1:
+                            y = x.find("mozila")#Verificando se o mozila
+                            if y == -1:
+                                y = x.find("opera")#Verificando o Opera
+                                if y == -1:        #o Retorno da funçao find quando nao encotrado é sempre -1
+                                    break
+                                else:
+                                    y = y + 6      #ajustando a frase para pegar apenas a pesquisa
+                                    retorno = x[y:]
+                            else:
+                                y = y + 7          #ajustando a frase para pegar apenas a pesquisa
+                                retorno = x[y:]
+                        else:
+                            y = y + 7              #ajustando a frase para pegar apenas a pesquisa
+                            retorno = x[y:]
+
                     return(retorno)
 
                 n = n + 1
                     #For apenas para selecionar e armazenar o retorno do banco
 
         except:     #Existe apenas para evitar erros e travamentos no codigo
-            print("Nada foi encontrado em meu banco de dados")
+            print("o")
 
+    def consulta_parametro (self, msg):
+        try:
+            x = msg.strip() #strip vai tirar espaço desnecessário (a mais)
+            x = x.lower() #deixa toda string minuscula
+            x = x.split() #separa a string por palavra em uma lista
+            y = len(x) #conta os elementos da lista
+            n = 0 # variável auxiliar do while
 
+            while (n != y):  # percorre todos os elementos da lista e comparando com o banco de dados
+
+                self.cursor.execute(
+                    f"SELECT parametro FROM dicionario WHERE palavra = '{x[n]}' OR sinonimo = '{x[n]}' OR sinonimo_2 = '{x[n]}'")
+                rows = self.cursor.fetchall()
+
+                # Select é o comando em sql para realizar consultas
+                # O mesmo esta consultando a açao e o comando e retornando o caminho/parametro
+
+                for row in rows:
+                    retorno = row[0]
+                    return (retorno)
+
+                n = n + 1
+        except:
+            print("n")
 
     def showdonw (self): #exibe a tabela do banco de dados
 
@@ -112,24 +159,29 @@ class ConnectBancoDados:
             if tabela == 1:
                 self.cursor.execute("SELECT * FROM comando")
                 tabela = "comando"
-                break
 
             elif tabela == 2:
                 self.cursor.execute("SELECT * FROM dicionario")
                 tabela = "dicionario"
-                break
 
             elif tabela == 3:
                 self.cursor.execute("SELECT * FROM aplicativo")
                 tabela = "aplicativo"
-                break
+
             else:
                 print("Tabela invalida, use numerico de 1 a 3")
 
-        cats = self.cursor.fetchall()
+            cats = self.cursor.fetchall()
 
-        for cat in cats:
-            print(f"each {tabela} : {cat}")
+            for cat in cats:
+                print(f"each {tabela} : {cat}")
 
+            c = int(input('\ndeseja vizualizar outra tabela (1-sim/2-nao) ? :\n'))
+            if c == 2:
+                break
 
+#Podem Retirar as # para realizarem consultas nas tabelas sendo elas (COMANDO tabela 1, APLICATIVO tabela 2 e DICIONARIO tabale 3) use numerico de 1 a 3 para selecionar
 
+if __name__ == '__main__':
+    banco_de_dados = ConnectBancoDados()
+    banco_de_dados.showdonw()

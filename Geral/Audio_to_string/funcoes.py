@@ -1,7 +1,7 @@
 import speech_recognition as sr
 import pyttsx3
 from random import choice
-
+from Geral.Auxiliar.Ponte import *
 
 version = "0.0.1"
 reproducao = pyttsx3.init('sapi5')
@@ -14,8 +14,8 @@ def fala_jarvieees(resposta):
 
 
 def reconhecimento():
-    inicializacao = choice(lista_inicializacao)
-    resposta_erro = choice(lista_erros)
+   inicializacao = choice(lista_inicializacao)
+   resposta_erro = choice(lista_erros)
 
     rec = sr.Recognizer()
 
