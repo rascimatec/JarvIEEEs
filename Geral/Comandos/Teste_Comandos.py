@@ -8,5 +8,5 @@ import sys
 
 # from Alarme import *
 # import Comandos.Alarme
-
+#os.startfile('www.google.com')
 main()

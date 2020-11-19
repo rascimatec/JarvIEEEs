@@ -37,6 +37,7 @@ def voice_setup():
     """VOICE"""
     voices = engineSPK.getProperty('voices')
     # Por algum motivo o indice '1' altera o idioma e não a voz
+    # EASTER EGG ->
     engineSPK.setProperty('voice', voices[0].id)
 
 
@@ -60,6 +61,70 @@ def saudacao():  # Serve para que o assistente realize uma saudação
 
     fala_jarvieees('Eu sou Jarviees. Como eu poderia te ajudar?')
 
+def info_data():
+    number_to_day = {
+        '01': 'primeiro',
+        '02': 'dois',
+        '03': 'três',
+        '04': 'quatro',
+        '05': 'cinco',
+        '06': 'seis',
+        '07': 'sete',
+        '08': 'oito',
+        '09': 'nove',
+        '10': 'dez',
+        '11': 'onze',
+        '12': 'doze',
+        '13': 'treze',
+        '14': 'catorze',
+        '15': 'quinze',
+        '17': 'dezeseis',
+        '18': 'dezoito',
+        '19': 'dezenove',
+        '20': 'vinte',
+        '21': 'vinte e um',
+        '22': 'vinte e dois',
+        '23': 'vinte e três',
+        '24': 'vinte e quatro',
+        '25': 'vinte e cinco',
+        '26': 'vinte e seis',
+        '27': 'vinte e sete',
+        '28': 'vinte e oite',
+        '29': 'vinte e nove',
+        '30': 'trinta',
+        '31': 'trinta e um'
+    }
+
+    number_to_month = {
+        '01': 'janeiro',
+        '02': 'fevereiro',
+        '03': 'março',
+        '04': 'abril',
+        '05': 'maio',
+        '06': 'junho',
+        '07': 'julho',
+        '08': 'agosto',
+        '09': 'setembro',
+        '10': 'outubro',
+        '11': 'novembro',
+        '12': 'dezembro'
+    }
+    data = str(datetime.now().date())
+    # fatiamento da string original para separar informações e conversão dos algarismos em palavras
+    # Original: YEAR-MT-DY (ano-mês-dia)
+    dia = number_to_day[data[8:]]  # 2 últimos caracteres
+    mes = number_to_month[data[5:7]]    # 5° e 6° dígito da data
+    ano = data[0:4]     # Primeiros 4 caracteres
+    frase = f'hoje é {dia} de {mes} de {ano}'
+    fala_jarvieees(frase)
+
+
+def info_hora():
+    tempo = str(datetime.now().time())
+    hora = tempo[:2]
+    minuto = tempo[3:5]
+    frase = f'são {hora} e {minuto}'
+    fala_jarvieees(frase)
 
 def despedida():        # Serve apenas para o assistente se depedir
     fala_jarvieees('Adeus!')
