@@ -18,7 +18,7 @@ trainer = ChatterBotCorpusTrainer(chatbot)
 # treina o chatbot com listas já feitas (em português)
 trainer.train("chatterbot.corpus.portuguese")
 
-# Get a response to the input text 'I would like to book a flight.'
+# Retorna uma resposta para o texto digitado
 while True:
     request = str(input("Você: "))
     response = chatbot.get_response(request)

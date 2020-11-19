@@ -28,7 +28,7 @@ trainer2.train("chatterbot.corpus.portuguese")
 chatbot2.get_response("Olá")
 
 # Get a response to the input text 'I would like to book a flight.'
-pergunta = chatbot.get_response('do you speak english)
+pergunta = chatbot.get_response('do you speak english')
 response = chatbot2.get_response('Marvel ou DC?')
 while True:
     pergunta = chatbot.get_response(response)
