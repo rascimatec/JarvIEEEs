@@ -11,7 +11,7 @@ ieee_ref = [
     "É a maior organização técnica do mundo. Nunca ouviu falar?",
     
     "Quais os valores do IEEE?",
-    "Networking, confiança, proatividade, honestidade e sinergia",
+    "Honestidade, Confiança, Sinergia, Proatividade e Networking"
 
     "O que significa RAS?",
     "Significa Sociedade de Robótica e Automação",
@@ -27,6 +27,19 @@ ieee_ref = [
 
 ]
 
+ieee_pronuncia = "i3é"  # Define como o assistente fará a pronuncia do IEEE
+trocadIEEElhos = [
+
+]
+
+engenharia = [
+    "O que é derivada?",
+    "É a taxa de variação instatânea de um ponto de uma função",
+
+    "O que é integral?",
+    "A integral representa a área sobre a curva de uma função"
+]
+
 
 def treinar(chatbot):
     # chatbot -> instância do chatterbot criada com o ChatBot('nome')
@@ -34,4 +47,8 @@ def treinar(chatbot):
 
     trainer_custom.train(
         ieee_ref.__str__()
+    )
+
+    trainer_custom.train(
+        engenharia.__str__()
     )

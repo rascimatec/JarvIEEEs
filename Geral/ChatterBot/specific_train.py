@@ -2,6 +2,7 @@ from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer     # permite a inicialização de um bot já treinado
 from Geral.ChatterBot.treino_personalizado import *
+
 # Create a new chat bot named Charlie
 nome = 'Charlie'
 chatbot = ChatBot(nome)
@@ -13,9 +14,9 @@ trainer = ChatterBotCorpusTrainer(chatbot)
 # importa tudo com exceção da lista de elogios e frases sobre a unilab
 
 # Treina o bot com as lista do arquivo treino_personalizado
-treinar(chatbot)
+# treinar(chatbot)
 
-trainer.train(
+'''trainer.train(
     "chatterbot.corpus.portuguese.conversations",
     #"chatterbot.corpus.portuguese.games",
     "chatterbot.corpus.portuguese.greetings",
@@ -24,6 +25,12 @@ trainer.train(
     "chatterbot.corpus.portuguese.proverbs",
     "chatterbot.corpus.portuguese.suggestions",
     "chatterbot.corpus.portuguese.trivia",
+)'''
+
+trainer.train(
+    #"C:/Users/jgabr/Documents/GitHub/JarvIEEEs/Geral/ChatterBot/ieee.yml"
+    #"chatterbot.corpus.portuguese.custom.ieee"
+    "chatterbot.corpus.portuguese"
 )
 
 
@@ -33,3 +40,5 @@ while True:
     request = str(input("Você: "))
     response = chatbot.get_response(request)
     print(f'{nome}: {response}')
+
+# https://chatterbot.readthedocs.io/en/stable/training.html
