@@ -1,4 +1,8 @@
 import psycopg2
+import os
+from Geral.Comandos.Comandos import fala_jarvieees
+from Geral.Comandos.Comandos import comando_stdby
+
 
 #IMPORTAÇAO DA BIBLIOTECA PSYCOPG2
 #from Geral.Auxiliar.ponte import *("Utilizem essa importaçao levar os codigo para o arquivo que vc quiser")
@@ -122,7 +126,13 @@ class ConnectBancoDados:
                     #For apenas para selecionar e armazenar o retorno do banco
 
         except:     #Existe apenas para evitar erros e travamentos no codigo
-            print("o")
+            print("ho")
+            #fala_jarvieees("Sinto muito mas nao sei oque responder, gostaria que eu pesquise sobre isso ?")
+            #reposta = comando_stby()
+            #resposta = reposta.lower()
+            #if resposta == 'sim' or 'claro' or 'faça':
+                #os.startfile('https://www.google.com.br/search?q=' + msg)
+
 
     def consulta_parametro (self, msg):
         try:
@@ -184,4 +194,4 @@ class ConnectBancoDados:
 
 if __name__ == '__main__':
     banco_de_dados = ConnectBancoDados()
-    banco_de_dados.showdonw()
+#    banco_de_dados.showdonw()

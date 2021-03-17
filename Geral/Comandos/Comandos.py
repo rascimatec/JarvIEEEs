@@ -1,7 +1,6 @@
 import pyttsx3
 import speech_recognition as sr
 import datetime
-import wikipedia
 import webbrowser
 import os
 from datetime import datetime, timedelta
@@ -259,13 +258,8 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
         parametro = banco_de_dados.consulta_parametro(pergunta)  #consulta de procedimento a ser realizado EX: (abrir arq ou pesquisa)
         path = banco_de_dados.consulta(pergunta)                 #consulta de Aplicativo EX: (abrir oque ? ou pesquisar oque ?)
 
-        if 'wikipedia' in parametro:  #o modelo de pesquisa foi mantido sendo somente adapitado para o banco
-            fala_jarvieees('Pesquisando no wikipedia...')
-            busca = path.replace('wikipedia', '')
-            results = wikipedia.summary(busca, sentences=2)
-            print(results)
-            fala_jarvieees(results)
-            print('Pesquisa concluida' + senhor)
+        if 'search' in path:  #o modelo de pesquisa foi mantido sendo somente adapitado para o banco
+            os.startfile(path + pergunta)
 
         elif 'startfile' in parametro: #aqui ocorrem todas aberturas de programas e sites
             os.startfile(path)

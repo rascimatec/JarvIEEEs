@@ -1,6 +1,6 @@
 import requests as rq
 
-cidade = 'salvador'
+cidade = 'Sao Paulo'
 
 def clima_tempo():
 	endereco_api = "http://api.openweathermap.org/data/2.5/weather?appid=5600ff2f7fb3d163a1b20079b9a063dc&q="
