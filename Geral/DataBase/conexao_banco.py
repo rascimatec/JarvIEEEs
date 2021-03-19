@@ -40,44 +40,56 @@ class ConnectBancoDados:
 
     def insert_record (self): #função para adicionar elementos as tabelas.
         #tabela 1 = Aplicativo, tabela 2 = comando, tabela 3 = dicionario
+        try:
+            bla = 'bla'
+            while True:
+                if bla == 'n':
+                    break
+                r1 = input("deseja fazer um cadastro completo ? ex: comando+verbo_lig+aplicativo (s/n) ?")
+                r2 = input("deseja cadastrar apenas um novo aplicativo (s/n) ?")
 
-        while True:
+                if r1 == 's':# Cadastro completo
 
-            tabela = int("Qual tabela deseja modificar ? :")
+                    comando = input('Por favor, digite o comando desejado. (Ex:Abra, feche)')
+                    palavra = comando
+                    sinonimo = input('Por favor, digite um sinonimo para o comando listado. (Ex:Abrir, fechar)')
+                    sinonimo_2 = input('Por favor, digite outro sinonimo, pode ser em outras linguas se desejar')
+                    parametro = input('Por favor, digite o parametro para esse comando (Ex:os.starfile)')
+                    aplicativo = input('Por favor, digite o nome da aplicação. (Ex:facebook, youtube)')
+                    id_comando = input('Por favor, digite o nome do comando que deseja atribuir a esse aplicativo. (use o salvo na tabela comando)')
+                    caminho = input('Por favor, digite o caminho do aplicativo. (Ex: https:youtube.com)')
+                    artigo = input('Por favor, digite um verbo de ligação para frase. (Ex:Abra ''O'' youtube)')
+                    id_dicionario = id_comando
 
-            if tabela == 1: #tabela aplicativo
-                record = input(int("Digite qual comando deseja atribuir :"))
-                if(record == 'abrir' or record == 'abra'):
-                    record = 1
-                elif (record == 'desligar' or record == 'desligue'):
-                    record = 2
-                elif(record == 'fechar' or record == 'feche'):
-                    record = 3
-                elif(record == 'pesquise' or record == 'pesquisa'):
-                    record = 4
+                    insert_command = "INSERT INTO comando(comando, acao) VALUES('" + comando + "','" + bla + "') INSERT INTO dicionario(palavra, sinonimo, sinonimo_2, parametro) VALUES('" + palavra + "','" + sinonimo + "','" + sinonimo_2 + "','" + parametro + "') INSERT INTO aplicativo(id_comando, aplicativo, caminho, artigo, id_dicionario) VALUES('SELECT id_comando FROM comando where comando =" + id_comando + "','" + aplicativo + "','" + caminho + "','" + artigo + "','SELECT id_dicionario FROM dicionario where palavra =" + id_dicionario + "')"
 
-                record1 = input("Digite o nome do aplicativo :")
-                record2 = input("Digite o caminho do aplicativo :")
-                insert_command = "INSERT INTO aplicativo(id_comando, aplicativo, caminho) VALUES('" + record + "','" + record1 + "','" + record2 + "') "
-                break
+                elif r2 == 's':#cadastro aplicativo
 
-            elif tabela == 2:#tabela comando
-                record = input("Digite o comando desejado :")
-                record1 = input("Digite a ação desejada :")
-                insert_command = "INSERT INTO comando(comando, acao) VALUES('" + record + "','" + record1 + "')"
-                break
+                    aplicativo = input('Por favor, digite o nome da aplicação. (Ex:facebook, youtube)')
+                    id_comando = input('Por favor, digite o nome do comando que deseja atribuir a esse aplicativo. (use o salvo na tabela comando)')
+                    caminho = input('Por favor, digite o caminho do aplicativo. (Ex: https:youtube.com)')
+                    artigo = input('Por favor, digite um verbo de ligação para frase. (Ex:Abra ''O'' youtube)')
+                    id_dicionario = id_comando
 
-            elif tabela == 3: #tabela dicionario
-                record = input("Dicionario aberto digite:")
-                record1 = input("Dicionario ainda aberto:")
-                record2 = input("Dicionario ultima fechando:")
-                insert_command = "INSERT INTO dicionario(palavra, sinonimo, sinonimo_2) VALUES('" + record + "','" + record1 + "','" + record2 + "')"
-                break
+                    insert_command = "INSERT INTO aplicativo(id_comando, aplicativo, caminho, artigo, id_dicionario) VALUES('SELECT id_comando FROM comando where comando =" + id_comando + "','" + aplicativo + "','" + caminho + "','" + artigo + "','SELECT id_dicionario FROM dicionario where palavra =" + id_dicionario +"')"
 
-            else:
-                print("Tabela invalida, use numerico de 1 a 3")
-        self.cursor.execute(insert_command) #execuçao do comando em SQL
+                elif r1 and r2 == 'n':
+                    break
 
+                else:
+                    while True:
+                        p = input('porfavor digite apenas "s" ou "n" deseja tentar novamente ?' )
+
+                        if p == 's':
+                            break
+                        elif p == 'n':
+                            break
+                            bla = 'n'
+
+            self.cursor.execute(insert_command) #execuçao do comando em SQL
+
+        except:
+            print('nao foi possivel realizar o cadastro no banco de dados, tente novamente.')
 
     def consulta (self, msg): #funçao de consulta com o banco de dados
 
@@ -162,9 +174,9 @@ class ConnectBancoDados:
     def showdonw (self): #exibe a tabela do banco de dados
 
 
-        while True: #Nao ira permanecer estou usando apenas por enquanto pois minha conexao com o banco é lenta devido a internet
+        while True: #vizualizaçao do banco de dados via terminal python
                     
-            tabela = int(input("Qual tabela deseja exibir ? :"))
+            tabela = int(input("Qual tabela deseja exibir (1-comando, 2-dicionario, 3-aplicativo)? :"))
 
             if tabela == 1:
                 self.cursor.execute("SELECT * FROM comando")
@@ -186,11 +198,11 @@ class ConnectBancoDados:
             for cat in cats:
                 print(f"each {tabela} : {cat}")
 
-            c = int(input('\ndeseja vizualizar outra tabela (1-sim/2-nao) ? :\n'))
-            if c == 2:
+            c = int(input('\ndeseja vizualizar outra tabela (s/n) ? :\n'))
+            if c == 'n':
                 break
 
-#Podem Retirar as # para realizarem consultas nas tabelas sendo elas (COMANDO tabela 1, APLICATIVO tabela 2 e DICIONARIO tabale 3) use numerico de 1 a 3 para selecionar
+#Podem Retirar as # para realizarem consultas nas tabelas sendo elas (COMANDO tabela 1, APLICATIVO tabela 3 e DICIONARIO tabale 2) use numerico de 1 a 3 para selecionar
 
 if __name__ == '__main__':
     banco_de_dados = ConnectBancoDados()
