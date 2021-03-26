@@ -1,7 +1,6 @@
 import psycopg2
 import os
-from Geral.Comandos.Comandos import fala_jarvieees
-from Geral.Comandos.Comandos import comando_stdby
+
 
 
 #IMPORTAÇAO DA BIBLIOTECA PSYCOPG2
@@ -45,30 +44,32 @@ class ConnectBancoDados:
             while True:
                 if bla == 'n':
                     break
-                r1 = input("deseja fazer um cadastro completo ? ex: comando+verbo_lig+aplicativo (s/n) ?")
-                r2 = input("deseja cadastrar apenas um novo aplicativo (s/n) ?")
+                r1 = input("Deseja fazer um cadastro completo ? ex: comando+palavra de ligaçao+aplicativo (s/n) ?").lower().strip()
+                r2 = input("Deseja cadastrar apenas um novo aplicativo (s/n) ?").lower().strip()
+
+
 
                 if r1 == 's':# Cadastro completo
 
-                    comando = input('Por favor, digite o comando desejado. (Ex:Abra, feche)')
+                    comando = input('Por favor, digite o comando desejado. (Ex:Abra, feche)').lower().strip()
                     palavra = comando
-                    sinonimo = input('Por favor, digite um sinonimo para o comando listado. (Ex:Abrir, fechar)')
-                    sinonimo_2 = input('Por favor, digite outro sinonimo, pode ser em outras linguas se desejar')
-                    parametro = input('Por favor, digite o parametro para esse comando (Ex:os.starfile)')
-                    aplicativo = input('Por favor, digite o nome da aplicação. (Ex:facebook, youtube)')
-                    id_comando = input('Por favor, digite o nome do comando que deseja atribuir a esse aplicativo. (use o salvo na tabela comando)')
-                    caminho = input('Por favor, digite o caminho do aplicativo. (Ex: https:youtube.com)')
-                    artigo = input('Por favor, digite um verbo de ligação para frase. (Ex:Abra ''O'' youtube)')
+                    sinonimo = input('Por favor, digite um sinonimo para o comando listado. (Ex:Abrir, fechar)').lower().strip()
+                    sinonimo_2 = input('Por favor, digite outro sinonimo, pode ser em outras linguas se desejar').lower().strip()
+                    parametro = input('Por favor, digite o parametro para esse comando (Ex:os.starfile)').lower().strip()
+                    aplicativo = input('Por favor, digite o nome da aplicação. (Ex:facebook, youtube)').lower().strip()
+                    id_comando = input('Por favor, digite o nome do comando que deseja atribuir a esse aplicativo. (use o salvo na tabela comando)').lower().strip()
+                    caminho = input('Por favor, digite o caminho do aplicativo. (Ex: https:youtube.com)').lower().strip()
+                    artigo = input('Por favor, digite um palavra de ligação para frase. (Ex:Abra ''O'' youtube)').lower().strip()
                     id_dicionario = id_comando
 
                     insert_command = "INSERT INTO comando(comando, acao) VALUES('" + comando + "','" + bla + "') INSERT INTO dicionario(palavra, sinonimo, sinonimo_2, parametro) VALUES('" + palavra + "','" + sinonimo + "','" + sinonimo_2 + "','" + parametro + "') INSERT INTO aplicativo(id_comando, aplicativo, caminho, artigo, id_dicionario) VALUES('SELECT id_comando FROM comando where comando =" + id_comando + "','" + aplicativo + "','" + caminho + "','" + artigo + "','SELECT id_dicionario FROM dicionario where palavra =" + id_dicionario + "')"
 
                 elif r2 == 's':#cadastro aplicativo
 
-                    aplicativo = input('Por favor, digite o nome da aplicação. (Ex:facebook, youtube)')
-                    id_comando = input('Por favor, digite o nome do comando que deseja atribuir a esse aplicativo. (use o salvo na tabela comando)')
-                    caminho = input('Por favor, digite o caminho do aplicativo. (Ex: https:youtube.com)')
-                    artigo = input('Por favor, digite um verbo de ligação para frase. (Ex:Abra ''O'' youtube)')
+                    aplicativo = input('Por favor, digite o nome da aplicação. (Ex:facebook, youtube)').lower().strip()
+                    id_comando = input('Por favor, digite o nome do comando que deseja atribuir a esse aplicativo. (use o salvo na tabela comando)').lower().strip()
+                    caminho = input('Por favor, digite o caminho do aplicativo. (Ex: https:youtube.com)').lower().strip()
+                    artigo = input('Por favor, digite um verbo de ligação para frase. (Ex:Abra ''O'' youtube)').lower().strip()
                     id_dicionario = id_comando
 
                     insert_command = "INSERT INTO aplicativo(id_comando, aplicativo, caminho, artigo, id_dicionario) VALUES('SELECT id_comando FROM comando where comando =" + id_comando + "','" + aplicativo + "','" + caminho + "','" + artigo + "','SELECT id_dicionario FROM dicionario where palavra =" + id_dicionario +"')"
@@ -78,7 +79,7 @@ class ConnectBancoDados:
 
                 else:
                     while True:
-                        p = input('porfavor digite apenas "s" ou "n" deseja tentar novamente ?' )
+                        p = input('porfavor digite apenas "s" ou "n" deseja tentar novamente ?' ).lower().strip()
 
                         if p == 's':
                             break

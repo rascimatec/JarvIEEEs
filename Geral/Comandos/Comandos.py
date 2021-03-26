@@ -1,10 +1,11 @@
-import pyttsx3
+#import pyttsx3
 import speech_recognition as sr
 import datetime
 import webbrowser
 import os
 from datetime import datetime, timedelta
 from time import sleep
+import requests as rq
 from Geral.Auxiliar.Ponte import *
 
 
@@ -16,7 +17,7 @@ nome_assistente = 'assistente'     # nome do assistente
 senhor = ' senhor'       # Como o assistente chamará o usuário
 version = "1.0.0"       # apenas um valor arbitrário para indicar a versão atual do software
 finalizacao = ["adeus", "finalizar", "tchau"]  # Lista de comandos usados para hibernar o assistente
-engineSPK = pyttsx3.init('sapi5')
+#engineSPK = pyttsx3.init('sapi5')
 
 
 def intro():
@@ -312,8 +313,97 @@ def main_stdby():
             print(pergunta)  # Apenas para que seja possível ver o que o assistente entedeu
             acoes(pergunta)  # Função principal responsável pela maior parte das ações
 
+def leitura_tempo(msg):
+    z = msg
+    y = len(z)
 
-if __name__ == '__main__':  # é a conexão com o banco.
-    banco_de_dados = ConnectBancoDados()  # inicio da conexao
-    voice_setup()         # Configura a voz do assistente
-    main_stdby()
+    if y > 8:
+	    print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm, a umidade relativa é de {z[5]:.2f}% e a velocidade dos ventos é de {z[7]:.2f} km/h')
+
+    elif y > 6:
+        if 'r' in z and 'a' in z and 's' in z:
+	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a umidade relativa é de {z[5]:.2f}%')
+        elif 'r' in z and 'a' in z and 'S' in z:
+	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a velocidade dos ventos é de {z[5]:.2f} km/h')
+        elif 'r' in z and 's' in z and 'S' in z:
+	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a umidade relativa é de {z[3]:.2f}% e a velocidade do vento é de {z[5]:.2f} km/h')
+        elif 'a' in z and 's' in z and 'S' in z:
+	        print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm, a umidade relativa é de {z[3]:.2f}% e a velocidade dos ventos é de {z[5]:.2f} km/h')
+
+    elif y > 4:
+        if 'r' in z and 'a' in z:
+	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a pressão atmosferica é de {z[3]:.2f} atm')
+        elif 'r' in z and 's' in z:
+   		    print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a umidade relativa é de {z[3]:.2f}%')
+        elif 'r' in z and 'S' in z:
+	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a velocidade do vento é de {z[3]:.2f} km/h')
+        elif 'a' in z and 's' in z:
+	        print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a umidade relativa é de {z[3]:.2f}%')
+        elif 'a' in z and 'S' in z:
+	        print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a velocidade dos ventos é de {z[3]:.2f} km/h')
+        elif 's' in z and 'S' in z:
+        	print(f'A umidade relativa de {z[0]} é de {z[1]:.2f}% e a velocidade do vento é de {z[3]:.2f} km/h')
+
+    elif y > 2:
+        if 'r' in z :
+	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius')
+        elif 'a' in z:
+	        print(f'A pressão atmosferica de {z[0]} é de {z[1]:.2f}atm')
+        elif 's' in z:
+	        print(f'A umidade relativa de {z[0]} é de {z[1]:.2f}%')
+        elif 'S' in z:
+    	    print(f'A velocidade dos ventos de {z[0]} é de {z[1]:.2f} km/h')
+
+
+def clima_tempo():
+    endereco_api = "http://api.openweathermap.org/data/2.5/weather?appid=5600ff2f7fb3d163a1b20079b9a063dc&q="
+    resultado = input('me diga oque voce gostaria de saber ?')  # fala_jarvies
+    msg = input('tudo bem qual a cidade ?')  # fala_jarvies#
+
+    x = msg.strip()  # strip vai tirar espaço desnecessário (a mais)
+    x = x.lower()  # deixa toda string minuscula
+    x = x.split()  # separa a string por palavra em uma lista
+    y = len(x)  # conta os elementos da lista
+    n = 0  # variável auxiliar do while
+
+    while True:
+        if y > 1:
+            cidade = x[n] + '+' + x[n + 1]
+        else:
+            cidade = x[n]
+            url = endereco_api + cidade
+            infos = rq.get(url).json()
+
+    temp = infos['main']['temp'] - 273.15  # Kelvin para Celsius
+    pressao_atm = infos['main']['pressure'] / 1013.25  # rLibas para ATM
+    umidade = infos['main']['humidity']  # Recebe em porcentagem
+
+    v_speed = infos['wind']['speed']  # km/ h
+
+    x = resultado.strip()  # strip vai tirar espaço desnecessário (a mais)
+    x = x.lower()  # deixa toda string minuscula
+    x = x.split()  # separa a string por palavra em uma lista
+    y = len(x)  # conta os elementos da lista
+    n = 0  # auxiliar do while
+    lis = [msg]  # lista que faz a magica
+
+    while (n != y):
+        if 'tem' in x[n]:
+            lis = lis + [temp, 'r']
+        elif 'p' in x[n]:
+            lis = lis + [pressao_atm, 'a']
+        elif 'u' in x[n]:
+            lis = lis + [umidade, 's']
+        elif 'v' in x[n]:
+            lis = lis + [v_speed, 'S']
+            n = n + 1
+
+
+    return lis
+
+leitura_tempo(clima_tempo())
+
+#if __name__ == '__main__':  # é a conexão com o banco.
+#    banco_de_dados = ConnectBancoDados()  # inicio da conexao
+#    voice_setup()         # Configura a voz do assistente
+#    main_stdby()
