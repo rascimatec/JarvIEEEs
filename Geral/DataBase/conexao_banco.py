@@ -1,7 +1,5 @@
 import psycopg2
 import os
-from Geral.Comandos.Comandos import fala_jarvieees
-from Geral.Comandos.Comandos import comando_stdby
 
 
 #IMPORTAÇAO DA BIBLIOTECA PSYCOPG2
