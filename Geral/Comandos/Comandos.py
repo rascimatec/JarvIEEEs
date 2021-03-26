@@ -276,8 +276,8 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
         elif 'system' in parametro:    #aqui ocorrem todos os comandos em cmd
             os.system(path)
 
-        #elif pergunta == 'que dia é hoje':  # não é uma boa solução porque só aceita essa frase como chave
-        #info_data()
+        elif pergunta.lower() == 'que dia é hoje':  # não é uma boa solução porque só aceita essa frase como chave
+            info_data()
                                                                         #deixei elas comentadas pois por hora nao encaixam bem
         #elif pergunta == 'que horas são':
         #info_hora()
@@ -323,46 +323,47 @@ def main_stdby():
             print(pergunta)  # Apenas para que seja possível ver o que o assistente entedeu
             acoes(pergunta)  # Função principal responsável pela maior parte das ações
 
+
 def leitura_tempo(msg):
     z = msg
     y = len(z)
 
     if y > 8:
-	    print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm, a umidade relativa é de {z[5]:.2f}% e a velocidade dos ventos é de {z[7]:.2f} km/h')
+        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm, a umidade relativa é de {z[5]:.2f}% e a velocidade dos ventos é de {z[7]:.2f} km/h')
 
     elif y > 6:
         if 'r' in z and 'a' in z and 's' in z:
-	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a umidade relativa é de {z[5]:.2f}%')
+            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a umidade relativa é de {z[5]:.2f}%')
         elif 'r' in z and 'a' in z and 'S' in z:
-	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a velocidade dos ventos é de {z[5]:.2f} km/h')
+            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a velocidade dos ventos é de {z[5]:.2f} km/h')
         elif 'r' in z and 's' in z and 'S' in z:
-	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a umidade relativa é de {z[3]:.2f}% e a velocidade do vento é de {z[5]:.2f} km/h')
+            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a umidade relativa é de {z[3]:.2f}% e a velocidade do vento é de {z[5]:.2f} km/h')
         elif 'a' in z and 's' in z and 'S' in z:
-	        print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm, a umidade relativa é de {z[3]:.2f}% e a velocidade dos ventos é de {z[5]:.2f} km/h')
+            print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm, a umidade relativa é de {z[3]:.2f}% e a velocidade dos ventos é de {z[5]:.2f} km/h')
 
     elif y > 4:
         if 'r' in z and 'a' in z:
-	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a pressão atmosferica é de {z[3]:.2f} atm')
+            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a pressão atmosferica é de {z[3]:.2f} atm')
         elif 'r' in z and 's' in z:
-   		    print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a umidade relativa é de {z[3]:.2f}%')
+            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a umidade relativa é de {z[3]:.2f}%')
         elif 'r' in z and 'S' in z:
-	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a velocidade do vento é de {z[3]:.2f} km/h')
+            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a velocidade do vento é de {z[3]:.2f} km/h')
         elif 'a' in z and 's' in z:
-	        print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a umidade relativa é de {z[3]:.2f}%')
+            print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a umidade relativa é de {z[3]:.2f}%')
         elif 'a' in z and 'S' in z:
-	        print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a velocidade dos ventos é de {z[3]:.2f} km/h')
+            print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a velocidade dos ventos é de {z[3]:.2f} km/h')
         elif 's' in z and 'S' in z:
-        	print(f'A umidade relativa de {z[0]} é de {z[1]:.2f}% e a velocidade do vento é de {z[3]:.2f} km/h')
+            print(f'A umidade relativa de {z[0]} é de {z[1]:.2f}% e a velocidade do vento é de {z[3]:.2f} km/h')
 
     elif y > 2:
         if 'r' in z :
-	        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius')
+            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius')
         elif 'a' in z:
-	        print(f'A pressão atmosferica de {z[0]} é de {z[1]:.2f}atm')
+            print(f'A pressão atmosferica de {z[0]} é de {z[1]:.2f}atm')
         elif 's' in z:
-	        print(f'A umidade relativa de {z[0]} é de {z[1]:.2f}%')
+            print(f'A umidade relativa de {z[0]} é de {z[1]:.2f}%')
         elif 'S' in z:
-    	    print(f'A velocidade dos ventos de {z[0]} é de {z[1]:.2f} km/h')
+            print(f'A velocidade dos ventos de {z[0]} é de {z[1]:.2f} km/h')
 
 
 def clima_tempo():
@@ -412,6 +413,7 @@ def clima_tempo():
     return lis
 
 #leitura_tempo(clima_tempo())
+
 
 if __name__ == '__main__':  # é a conexão com o banco.
     banco_de_dados = ConnectBancoDados()  # inicio da conexao
