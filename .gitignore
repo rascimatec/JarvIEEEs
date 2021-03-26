@@ -20,3 +20,7 @@ Geral/Comandos/Watson_recognition.py
 *.sqlite3
 Geral/ChatterBot/db.sqlite3
 Geral/Comandos/Alarme teste.py
+dist
+build
+*.toc
+__main__.spec

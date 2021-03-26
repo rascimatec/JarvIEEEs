@@ -12,6 +12,8 @@ import sys
 # import Comandos.Alarme
 #os.startfile('www.google.com')
 print("Iniciando...")
-sleep(3)
-main()
-#main_stdby()
+#sleep(3)
+if __name__ == '__main__':  # é a conexão com o banco.
+    banco_de_dados = ConnectBancoDados()  # inicio da conexao
+    voice_setup()         # Configura a voz do assistente
+    main_stdby()

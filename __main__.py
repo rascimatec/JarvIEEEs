@@ -7,5 +7,7 @@ from time import sleep
 import sys
 
 print("Iniciando...")
+fala_jarvieees("Bem vindo")
 main()
 #main_stdby()
+input('Precione qualquer tecla para finalizar...')
