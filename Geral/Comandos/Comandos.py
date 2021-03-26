@@ -41,7 +41,7 @@ def voice_setup():
 
 
 def fala_jarvieees(resposta):  # Recebe uma string e responde com a mesma em forma de áudio
-    print(nome_assistente + ' ' + resposta)
+    print(nome_assistente + ': ' + resposta)
     engineSPK.say(resposta)
     engineSPK.runAndWait()
 
@@ -132,41 +132,50 @@ def despedida():        # Serve apenas para o assistente se depedir
 
 
 def comando():  # Serve para ouvir uma frase e retorná-la como uma string
-    r = sr.Recognizer()
-    while True:  # Continuará neste loop até que a fala seja entendida
-        with sr.Microphone() as source:
-            r.adjust_for_ambient_noise(source, 0.75)  # Se 'adapta' aos ruídos externos
-            print('Ouvindo...')
-            audio = r.listen(source)
+    try:
+        r = sr.Recognizer()
+        while True:  # Continuará neste loop até que a fala seja entendida
+            with sr.Microphone() as source:
+                r.adjust_for_ambient_noise(source, 0.75)  # Se 'adapta' aos ruídos externos
+                print('Ouvindo...')
+                audio = r.listen(source)
 
-        try:
-            print('Reconhecendo...')
-            pergunta = r.recognize_google(audio, language='pt')
-            #print('Voce disse:{}'.format(pergunta))
-            break
+            try:
+                print('Reconhecendo...')
+                pergunta = r.recognize_google(audio, language='pt')
+                #print('Voce disse:{}'.format(pergunta))
+                break
 
-        except Exception as e:  # Caso não compreenda o que foi dito
-            erro = 'Fale de novo por favor'  # Substituir por mensagens de erro do banco
-            #fala_jarvieees(erro)
-            print(erro)
+            except Exception as e:  # Caso não compreenda o que foi dito
+                erro = 'Fale de novo por favor'  # Substituir por mensagens de erro do banco
+                #fala_jarvieees(erro)
+                print(erro)
 
-    return pergunta
+        return str(pergunta)
+    except:
+        fala_jarvieees("Conecte um microfone")
+        comando()
 
 
 def comando_stdby():  # Serve para ouvir uma frase e retorná-la como uma string
-    r = sr.Recognizer()
-    while True:  # Continuará neste loop até que a fala seja entendida
-        with sr.Microphone() as source:
-            r.adjust_for_ambient_noise(source, 0.75)  # Se 'adapta' aos ruídos externos
-            audio = r.listen(source)
+    try:
+        r = sr.Recognizer()
+        while True:  # Continuará neste loop até que a fala seja entendida
+            with sr.Microphone() as source:
+                r.adjust_for_ambient_noise(source, 0.75)  # Se 'adapta' aos ruídos externos
+                audio = r.listen(source)
 
-        try:
-            pergunta = r.recognize_google(audio, language='pt')
-            break
+            try:
+                pergunta = r.recognize_google(audio, language='pt')
+                break
 
-        except Exception as e:  # Caso não compreenda o que foi dito
-            erro = 'Fale de novo por favor'  # Substituir por mensagens de erro do banco
-    return pergunta
+            except Exception as e:  # Caso não compreenda o que foi dito
+                erro = 'Fale de novo por favor'  # Substituir por mensagens de erro do banco
+        print(pergunta)
+        return str(pergunta)
+    except:
+        fala_jarvieees("Conecte um microfone")
+        comando_stdby()
 
 
 # erro para números de duas ou mais palavra ex: vinte e um
@@ -257,7 +266,6 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
 
         parametro = banco_de_dados.consulta_parametro(pergunta)  #consulta de procedimento a ser realizado EX: (abrir arq ou pesquisa)
         path = banco_de_dados.consulta(pergunta)                 #consulta de Aplicativo EX: (abrir oque ? ou pesquisar oque ?)
-
         if 'search' in path:  #o modelo de pesquisa foi mantido sendo somente adapitado para o banco
             os.startfile(path + pergunta)
 
@@ -295,6 +303,8 @@ def main_stdby():
         else:
             pergunta = comando_stdby()
 
+        if pergunta is str:
+            print("É string")
         if nome_assistente in pergunta:    # Se o nome do assistente for dito
             start = True
 
