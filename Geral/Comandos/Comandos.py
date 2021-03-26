@@ -1,4 +1,4 @@
-#import pyttsx3
+import pyttsx3
 import speech_recognition as sr
 import datetime
 import webbrowser
@@ -17,7 +17,7 @@ nome_assistente = 'assistente'     # nome do assistente
 senhor = ' senhor'       # Como o assistente chamará o usuário
 version = "1.0.0"       # apenas um valor arbitrário para indicar a versão atual do software
 finalizacao = ["adeus", "finalizar", "tchau"]  # Lista de comandos usados para hibernar o assistente
-#engineSPK = pyttsx3.init('sapi5')
+engineSPK = pyttsx3.init('sapi5')
 
 
 def intro():
@@ -411,9 +411,9 @@ def clima_tempo():
 
     return lis
 
-leitura_tempo(clima_tempo())
+#leitura_tempo(clima_tempo())
 
-#if __name__ == '__main__':  # é a conexão com o banco.
-#    banco_de_dados = ConnectBancoDados()  # inicio da conexao
-#    voice_setup()         # Configura a voz do assistente
-#    main_stdby()
+if __name__ == '__main__':  # é a conexão com o banco.
+    banco_de_dados = ConnectBancoDados()  # inicio da conexao
+    voice_setup()         # Configura a voz do assistente
+    main_stdby()
