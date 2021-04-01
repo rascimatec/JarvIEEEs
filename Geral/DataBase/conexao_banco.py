@@ -140,12 +140,12 @@ class ConnectBancoDados:
                     #For apenas para selecionar e armazenar o retorno do banco
 
         except:     #Existe apenas para evitar erros e travamentos no codigo
-            print("ho")
-            fala_jarvieees("Sinto muito mas nao sei oque responder, gostaria que eu pesquise sobre isso ?")
+            print("Sinto muito mas nao sei oque responder")
+            '''fala_jarvieees("Sinto muito mas nao sei oque responder, gostaria que eu pesquise sobre isso ?")
             reposta = comando()
             resposta = reposta.lower()
             if resposta == 'sim' or 'claro' or 'faça':
-                os.startfile('https://www.google.com.br/search?q=' + msg)
+                os.startfile('https://www.google.com.br/search?q=' + msg)'''
 
 
     def consulta_parametro (self, msg):

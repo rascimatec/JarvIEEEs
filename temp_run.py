@@ -1,3 +1,5 @@
+# Cópia do arquivo Comandos.py usado para gerar o executável
+
 import pyttsx3
 import speech_recognition as sr
 import datetime
@@ -10,7 +12,7 @@ from Geral.Auxiliar.Ponte import *
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer     # permite a inicialização de um bot já treinado
-
+from chatterbot import preprocessors
 
 
 # Variaveis globais do código
