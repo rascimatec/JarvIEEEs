@@ -1,7 +1,7 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer     # permite a inicialização de um bot já treinado
-from Geral.ChatterBot.treino_personalizado import *
+#from Geral.ChatterBot.treino_personalizado import *
 
 # Create a new chat bot named Charlie
 nome = 'Charlie'
