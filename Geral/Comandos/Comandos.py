@@ -7,13 +7,15 @@ from datetime import datetime, timedelta
 from time import sleep
 import requests as rq
 from Geral.Auxiliar.Ponte import *
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
+from chatterbot.trainers import ChatterBotCorpusTrainer     # permite a inicialização de um bot já treinado
 
 
-
-# print('Inicializando Jarvieees')
 
 # Variaveis globais do código
 nome_assistente = 'assistente'     # nome do assistente
+chatbot = ChatBot(nome_assistente)
 senhor = ' senhor'       # Como o assistente chamará o usuário
 version = "1.0.0"       # apenas um valor arbitrário para indicar a versão atual do software
 finalizacao = ["adeus", "finalizar", "tchau"]  # Lista de comandos usados para hibernar o assistente
@@ -22,7 +24,9 @@ engineSPK = pyttsx3.init('sapi5')
 
 def intro():
     msg = f'Assistente versão {version}'
+    print('Inicializando Jarvieees')
     print(f'{"-"*len(msg)}\n{msg}\n{"-"*len(msg)}')
+    saudacao()
 
 
 def voice_setup():
@@ -178,89 +182,33 @@ def comando_stdby():  # Serve para ouvir uma frase e retorná-la como uma string
         fala_jarvieees("Conecte um microfone")
         comando_stdby()
 
+def chatter_setup():
+    # A lista de dialogos do corpus:
+    # https://github.com/gunthercox/chatterbot-corpus/tree/master/chatterbot_corpus/data/portuguese
+    trainer = ChatterBotCorpusTrainer(chatbot)
+    # treina o chatbot com listas já feitas (em português)
+    # importa tudo com exceção da lista de elogios e frases sobre a unilab
 
-# erro para números de duas ou mais palavra ex: vinte e um
-def string_to_int(frase):
-    # adaptado de https://www.geeksforgeeks.org/python-convert-numeric-words-to-numbers/
-    help_dict = {
-        'um': '1',
-        'uma': '1',
-        'dois' : '2',
-        'duas': '2',
-        'três': '3',
-        'quatro': '4',
-        'cinco': '5',
-        'seis': '6',
-        'sete': '7',
-        'oito': '8',
-        'nove': '9',
-        'dez': '10',
-        'onze': '11',
-        'doze': '12',
-        'treze': '13',
-        'catorze': '14',
-        'quinze': '15',
-        'dezeseis': '17',
-        'dezoito': '18',
-        'dezenove': '19',
-        'vinte': '20',
-        'vinte e um': '21',
-    }
+    # Treina o bot com as lista do arquivo treino_personalizado
+    # treinar(chatbot)
 
-    # Convert numeric words to numbers
-    # Using join() + split()
-    res = ""  # retorna essa frase caso não haja um número
-    for ele in frase.split():
-        if ele in help_dict:
-            res += help_dict[ele] + ' '
-    return res
+    trainer.train(
+        "chatterbot.corpus.portuguese.conversations",
+        #"chatterbot.corpus.portuguese.games",
+        "chatterbot.corpus.portuguese.greetings",
+        "chatterbot.corpus.portuguese.linguistic_knowledge",
+        #"chatterbot.corpus.portuguese.money",
+        "chatterbot.corpus.portuguese.proverbs",
+        "chatterbot.corpus.portuguese.suggestions",
+        "chatterbot.corpus.portuguese.trivia",
+    )
 
 
-def pkill(process_name):
-    processos = os.popen('tasklist').readlines()
-    for i in processos:
-        # print(i[0:27])
-        palavra = ''
-        for n in i:
-            if n != ' ':
-                palavra += n
-            else:
-                break
-        print(f'palavra:{palavra}  i:{i}')
-        if process_name.strip() == palavra.strip():
-            print('\n\nkill process\n\n')
-        else:
-            #processo não encontrado
-            return 0
-    try:
-        killed = os.system('taskkill /im ' + process_name)
-    except Exception as e:
-        print('Erro!!')
-        killed = 0
-    return killed
-
-
-# Seria mais interessante se essa função funcionasse em paralelo e não interrompesse todo o programa
-def timer(frase):
-    now = datetime.now().time()
-    tempo = int(string_to_int(frase))
-    print(tempo)
-    if tempo != "sem numero":
-        # Just use January the first, 2000
-        d1 = datetime(2000, 1, 1, now.hour, now.minute, now.second)
-        d2 = d1 + timedelta(hours=0, minutes=0, seconds=tempo)  # Deve ser substituido pelo tempo dito
-        fala_jarvieees(f'Te aviso quando der {d2.hour} e {d2.minute}')
-        print(d2.time())
-
-        while True:
-            now = datetime.now().time()
-            time = datetime(2000, 1, 1, now.hour, now.minute, now.second)
-            print(d2 - time)
-            if d2 - time <= timedelta(0, 0, 0, 0, 0, 0):
-                break
-            sleep(1)
-        fala_jarvieees('Timer concluído!')
-
+def chatter_answer(request):
+    response = chatbot.get_response(request)
+    print(f'{nome_assistente}: {response}')
+    fala_jarvieees(response)
+    return response
 
 def acoes(pergunta):  # Possíveis ações que o assistente pode executar
     try:
@@ -278,6 +226,14 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
 
         elif pergunta.lower() == 'que dia é hoje':  # não é uma boa solução porque só aceita essa frase como chave
             info_data()
+
+        elif 'conversa' in path: #aqui é condicional para que entrea função de chatbot
+            while True:
+                print('entrou')
+                resposta = comando()
+                if 'tchau' or 'adeus' in resposta:
+                    pass
+                chatter_answer(resposta)
                                                                         #deixei elas comentadas pois por hora nao encaixam bem
         #elif pergunta == 'que horas são':
         #info_hora()
@@ -286,14 +242,6 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
         print("no")
 
 
-def main():
-
-    pergunta = comando()
-    print(pergunta)  # Apenas para que seja possível ver o que o assistente entedeu
-    acoes(pergunta)
-
-
-# Função semelhante a função main(), com a diferença da aplicação do funcionamento em stand-by
 def main_stdby():
     start = True    # Estado inicial do assistente: ativo(True) ou standby(False)
     fim = False     # Se um dos comandos de finalização for dito o programa é incerrado
@@ -418,4 +366,6 @@ def clima_tempo():
 if __name__ == '__main__':  # é a conexão com o banco.
     banco_de_dados = ConnectBancoDados()  # inicio da conexao
     voice_setup()         # Configura a voz do assistente
+    chatter_setup()
+    intro()
     main_stdby()

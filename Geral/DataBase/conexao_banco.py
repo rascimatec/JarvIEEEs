@@ -1,6 +1,7 @@
 import psycopg2
 import os
-
+from Geral.Comandos.Comandos import *
+#from Geral.Auxiliar.Ponte import *
 
 
 #IMPORTAÇAO DA BIBLIOTECA PSYCOPG2
@@ -105,7 +106,7 @@ class ConnectBancoDados:
 
 
                 self.cursor.execute(
-                    f"SELECT caminho FROM comando JOIN aplicativo ON comando.id_comando = aplicativo.id_comando JOIN dicionario ON aplicativo.id_dicionario = dicionario.id_dicionario WHERE comando.comando = '{x[n]}' AND aplicativo.aplicativo = '{x[n + 2]}' AND aplicativo.artigo ='{x[n + 1]}' OR dicionario.sinonimo = '{x[n]}' AND aplicativo.artigo = '{x[n + 1]}' AND aplicativo.aplicativo = '{x[n + 2]}'")
+                    f"SELECT caminho FROM comando JOIN aplicativo ON comando.id_comando = aplicativo.id_comando JOIN dicionario ON aplicativo.id_dicionario = dicionario.id_dicionario WHERE comando.comando = '{x[n]}' AND aplicativo.artigo ='{x[n + 1]}' AND aplicativo.aplicativo = '{x[n + 2]}' OR dicionario.sinonimo = '{x[n]}' AND aplicativo.artigo = '{x[n + 1]}' AND aplicativo.aplicativo = '{x[n + 2]}' OR dicionario.sinonimo_2 = '{x[n]}' AND aplicativo.artigo = '{x[n + 1]}' AND aplicativo.aplicativo = '{x[n + 2]}' OR comando.comando = '{x[n]}' AND aplicativo.aplicativo = '{x[n + 1]}' OR dicionario.sinonimo = '{x[n]}' AND aplicativo.aplicativo = '{x[n + 1]}' OR dicionario.sinonimo_2 = '{x[n]}' AND aplicativo.aplicativo = '{x[n + 1]}'")
                 rows = self.cursor.fetchall()
             
                 #Select é o comando em sql para realizar consultas
@@ -140,11 +141,11 @@ class ConnectBancoDados:
 
         except:     #Existe apenas para evitar erros e travamentos no codigo
             print("ho")
-            #fala_jarvieees("Sinto muito mas nao sei oque responder, gostaria que eu pesquise sobre isso ?")
-            #reposta = comando_stby()
-            #resposta = reposta.lower()
-            #if resposta == 'sim' or 'claro' or 'faça':
-                #os.startfile('https://www.google.com.br/search?q=' + msg)
+            fala_jarvieees("Sinto muito mas nao sei oque responder, gostaria que eu pesquise sobre isso ?")
+            reposta = comando()
+            resposta = reposta.lower()
+            if resposta == 'sim' or 'claro' or 'faça':
+                os.startfile('https://www.google.com.br/search?q=' + msg)
 
 
     def consulta_parametro (self, msg):
