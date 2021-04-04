@@ -85,8 +85,9 @@ class ConnectBancoDados:
                         if p == 's':
                             break
                         elif p == 'n':
-                            break
                             bla = 'n'
+                            break
+
 
             self.cursor.execute(insert_command) #execuçao do comando em SQL
 
@@ -140,13 +141,7 @@ class ConnectBancoDados:
                     #For apenas para selecionar e armazenar o retorno do banco
 
         except:     #Existe apenas para evitar erros e travamentos no codigo
-            print("ho")
             fala_jarvieees("Sinto muito mas nao sei oque responder, gostaria que eu pesquise sobre isso ?")
-            reposta = comando()
-            resposta = reposta.lower()
-            if resposta == 'sim' or 'claro' or 'faça':
-                os.startfile('https://www.google.com.br/search?q=' + msg)
-
 
     def consulta_parametro (self, msg):
         try:
@@ -178,34 +173,38 @@ class ConnectBancoDados:
 
         while True: #vizualizaçao do banco de dados via terminal python
                     
-            tabela = int(input("Qual tabela deseja exibir (1-comando, 2-dicionario, 3-aplicativo)? :"))
 
-            if tabela == 1:
-                self.cursor.execute("SELECT * FROM comando")
-                tabela = "comando"
+            fala_jarvieees("Qual tabela deseja exibir (comando, dicionario, aplicativo) ? :")
+            while True:
+                tabela = comando()
 
-            elif tabela == 2:
-                self.cursor.execute("SELECT * FROM dicionario")
-                tabela = "dicionario"
+                if 'comando' in tabela:
+                    self.cursor.execute("SELECT * FROM comando")
+                    tabela = "comando"
+                    break
 
-            elif tabela == 3:
-                self.cursor.execute("SELECT * FROM aplicativo")
-                tabela = "aplicativo"
+                elif 'dicionario' in tabela:
+                    self.cursor.execute("SELECT * FROM dicionario")
+                    tabela = "dicionario"
+                    break
 
-            else:
-                print("Tabela invalida, use numerico de 1 a 3")
+                elif 'aplicativo' in tabela:
+                    self.cursor.execute("SELECT * FROM aplicativo")
+                    tabela = "aplicativo"
+                    break
+
+                else:
+                    print("Nao entendi, poderia repetir qual tabela deseja vizualizar ?")
+
 
             cats = self.cursor.fetchall()
 
             for cat in cats:
                 print(f"each {tabela} : {cat}")
 
-            c = int(input('\ndeseja vizualizar outra tabela (s/n) ? :\n'))
-            if c == 'n':
-                break
 
 #Podem Retirar as # para realizarem consultas nas tabelas sendo elas (COMANDO tabela 1, APLICATIVO tabela 3 e DICIONARIO tabale 2) use numerico de 1 a 3 para selecionar
 
 if __name__ == '__main__':
     banco_de_dados = ConnectBancoDados()
-#    banco_de_dados.showdonw()
+#   banco_de_dados.showdonw()
