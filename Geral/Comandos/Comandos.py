@@ -243,6 +243,15 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
         elif 'system' in parametro:    #aqui ocorrem todos os comandos em cmd
             os.system(path)
 
+        elif 'leitura_tempo' in parametro:
+            parametro(path)
+
+        elif pergunta.lower() == 'que dia é hoje':  # não é uma boa solução porque só aceita essa frase como chave
+            info_data()
+
+        elif 'showdonw' in parametro:
+            banco_de_dados.showdonw()
+
         elif 'conversa' in path: #aqui é condicional para que entrea função de chatbot
             fala_jarvieees('Ativando modo conversa')
             while True:
@@ -298,47 +307,49 @@ def leitura_tempo(msg):
     y = len(z)
 
     if y > 8:
-        print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm, a umidade relativa é de {z[5]:.2f}% e a velocidade dos ventos é de {z[7]:.2f} km/h')
+        fala_jarvieees(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm, a umidade relativa é de {z[5]:.2f}% e a velocidade dos ventos é de {z[7]:.2f} km/h')
 
     elif y > 6:
         if 'r' in z and 'a' in z and 's' in z:
-            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a umidade relativa é de {z[5]:.2f}%')
+            fala_jarvieees(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a umidade relativa é de {z[5]:.2f}%')
         elif 'r' in z and 'a' in z and 'S' in z:
-            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a velocidade dos ventos é de {z[5]:.2f} km/h')
+            fala_jarvieees(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a pressão atmosferica é de {z[3]:.2f} atm e a velocidade dos ventos é de {z[5]:.2f} km/h')
         elif 'r' in z and 's' in z and 'S' in z:
-            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a umidade relativa é de {z[3]:.2f}% e a velocidade do vento é de {z[5]:.2f} km/h')
+            fala_jarvieees(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius, a umidade relativa é de {z[3]:.2f}% e a velocidade do vento é de {z[5]:.2f} km/h')
         elif 'a' in z and 's' in z and 'S' in z:
-            print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm, a umidade relativa é de {z[3]:.2f}% e a velocidade dos ventos é de {z[5]:.2f} km/h')
+            fala_jarvieees(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm, a umidade relativa é de {z[3]:.2f}% e a velocidade dos ventos é de {z[5]:.2f} km/h')
 
     elif y > 4:
         if 'r' in z and 'a' in z:
-            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a pressão atmosferica é de {z[3]:.2f} atm')
+            fala_jarvieees(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a pressão atmosferica é de {z[3]:.2f} atm')
         elif 'r' in z and 's' in z:
-            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a umidade relativa é de {z[3]:.2f}%')
+            fala_jarvieees(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a umidade relativa é de {z[3]:.2f}%')
         elif 'r' in z and 'S' in z:
-            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a velocidade do vento é de {z[3]:.2f} km/h')
+            fala_jarvieees(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius e a velocidade do vento é de {z[3]:.2f} km/h')
         elif 'a' in z and 's' in z:
-            print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a umidade relativa é de {z[3]:.2f}%')
+            fala_jarvieees(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a umidade relativa é de {z[3]:.2f}%')
         elif 'a' in z and 'S' in z:
-            print(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a velocidade dos ventos é de {z[3]:.2f} km/h')
+            fala_jarvieees(f'A pressão atmosferica em {z[0]} é de {z[1]:.2f} atm e a velocidade dos ventos é de {z[3]:.2f} km/h')
         elif 's' in z and 'S' in z:
-            print(f'A umidade relativa de {z[0]} é de {z[1]:.2f}% e a velocidade do vento é de {z[3]:.2f} km/h')
+            fala_jarvieees(f'A umidade relativa de {z[0]} é de {z[1]:.2f}% e a velocidade do vento é de {z[3]:.2f} km/h')
 
     elif y > 2:
         if 'r' in z :
-            print(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius')
+            fala_jarvieees(f'A temperatuda de {z[0]} é de {z[1]:.2f} graus celsius')
         elif 'a' in z:
-            print(f'A pressão atmosferica de {z[0]} é de {z[1]:.2f}atm')
+            fala_jarvieees(f'A pressão atmosferica de {z[0]} é de {z[1]:.2f}atm')
         elif 's' in z:
-            print(f'A umidade relativa de {z[0]} é de {z[1]:.2f}%')
+            fala_jarvieees(f'A umidade relativa de {z[0]} é de {z[1]:.2f}%')
         elif 'S' in z:
-            print(f'A velocidade dos ventos de {z[0]} é de {z[1]:.2f} km/h')
+            fala_jarvieees(f'A velocidade dos ventos de {z[0]} é de {z[1]:.2f} km/h')
 
 
 def clima_tempo():
     endereco_api = "http://api.openweathermap.org/data/2.5/weather?appid=5600ff2f7fb3d163a1b20079b9a063dc&q="
-    resultado = input('me diga oque voce gostaria de saber ?')  # fala_jarvies
-    msg = input('tudo bem qual a cidade ?')  # fala_jarvies#
+    fala_jarvieees('me diga oque voce gostaria de saber ?')
+    resultado = comando()
+    fala_jarvieees('tudo bem, qual a cidade ?')  # fala_jarvies#
+    msg = comando()
 
     x = msg.strip()  # strip vai tirar espaço desnecessário (a mais)
     x = x.lower()  # deixa toda string minuscula
@@ -391,3 +402,4 @@ if __name__ == '__main__':  # é a conexão com o banco.
     os.system('cls')
    # intro()
     main_stdby()
+
