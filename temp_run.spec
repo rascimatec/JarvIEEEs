@@ -4,10 +4,10 @@ block_cipher = None
 
 
 a = Analysis(['temp_run.py'],
-             pathex=['C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs\\Geral', 'C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs'],
+             pathex=['C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs\\Geral', 'C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs\\lib\\chatterbot_corpus\\data\\portuguese', 'C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs'],
              binaries=[],
              datas=[],
-             hiddenimports=[],
+             hiddenimports=['chatterbot_corpus'],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],

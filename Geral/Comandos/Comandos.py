@@ -10,6 +10,7 @@ from Geral.Auxiliar.Ponte import *
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer     # permite a inicialização de um bot já treinado
+from chatterbot import trainers
 
 
 

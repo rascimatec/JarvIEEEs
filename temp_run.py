@@ -11,9 +11,9 @@ import requests as rq
 from Geral.Auxiliar.Ponte import *
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
-from chatterbot.trainers import ChatterBotCorpusTrainer     # permite a inicialização de um bot já treinado
+#from chatterbot.trainers import ChatterBotCorpusTrainer     # permite a inicialização de um bot já treinado
 from chatterbot import preprocessors
-
+from chatterbot import trainers
 
 # Variaveis globais do código
 nome_assistente = 'assistente'     # nome do assistente
@@ -22,7 +22,42 @@ senhor = ' senhor'       # Como o assistente chamará o usuário
 version = "1.0.0"       # apenas um valor arbitrário para indicar a versão atual do software
 finalizacao = ["adeus", "finalizar", "tchau"]  # Lista de comandos usados para hibernar o assistente
 engineSPK = pyttsx3.init('sapi5')
+trainpath = "C:/Users/J. Gabriel/Documents/GitHub/JarvIEEEs/lib/portuguese"
 
+def chatter_setup():
+    # A lista de dialogos do corpus:
+    # https://github.com/gunthercox/chatterbot-corpus/tree/master/chatterbot_corpus/data/portuguese
+    trainer = trainers.ChatterBotCorpusTrainer(chatbot)
+
+    '''dirname = 'C:\\Users\\J. Gabriel\\AppData\\Local\\Programs\Python\\Python38\\Lib\\site-packages\\chatterbot_corpus\\data\\portuguese'
+
+    for files in os.listdir(dirname):
+        with open(os.path.join(dirname, files), "rt", encoding='utf-8') as f:
+            data = f.readlines()
+        trainer.train(data)'''
+    # treina o chatbot com listas já feitas (em português)
+    # importa tudo com exceção da lista de elogios e frases sobre a unilab
+
+    # Treina o bot com as lista do arquivo treino_personalizado
+    # treinar(chatbot)
+
+    '''trainer.train(
+        "chatterbot.corpus.portuguese.conversations",
+        #"chatterbot.corpus.portuguese.games",
+        "chatterbot.corpus.portuguese.greetings",
+        "chatterbot.corpus.portuguese.linguistic_knowledge",
+        #"chatterbot.corpus.portuguese.money",
+        "chatterbot.corpus.portuguese.proverbs",
+        "chatterbot.corpus.portuguese.suggestions",
+        "chatterbot.corpus.portuguese.trivia",
+        #"chatterbot.corpus.portuguese.custom"
+    )'''
+    trainer.train(
+        # "lib.chatterbot_corpus.data.portuguese"
+        trainpath
+        # "lib/chatterbot_corpus/data/portuguese"
+        # "chatterbot.corpus.portuguese"
+    )
 
 def intro():
     msg = f'Assistente versão {version}'
@@ -187,30 +222,7 @@ def comando_stdby():  # Serve para ouvir uma frase e retorná-la como uma string
         comando_stdby()
 
 
-def chatter_setup():
-    # A lista de dialogos do corpus:
-    # https://github.com/gunthercox/chatterbot-corpus/tree/master/chatterbot_corpus/data/portuguese
-    trainer = ChatterBotCorpusTrainer(chatbot)
-    # treina o chatbot com listas já feitas (em português)
-    # importa tudo com exceção da lista de elogios e frases sobre a unilab
 
-    # Treina o bot com as lista do arquivo treino_personalizado
-    # treinar(chatbot)
-
-    trainer.train(
-        "chatterbot.corpus.portuguese.conversations",
-        #"chatterbot.corpus.portuguese.games",
-        "chatterbot.corpus.portuguese.greetings",
-        "chatterbot.corpus.portuguese.linguistic_knowledge",
-        #"chatterbot.corpus.portuguese.money",
-        "chatterbot.corpus.portuguese.proverbs",
-        "chatterbot.corpus.portuguese.suggestions",
-        "chatterbot.corpus.portuguese.trivia",
-        "chatterbot.corpus.portuguese.custom"
-    )
-    #trainer.train(
-    #    "chatterbot.corpus.portuguese"
-    #)
 
 
 
