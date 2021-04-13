@@ -13,7 +13,6 @@ from chatterbot.trainers import ChatterBotCorpusTrainer     # permite a iniciali
 from chatterbot import trainers
 
 
-
 # Variaveis globais do código
 nome_assistente = 'assistente'     # nome do assistente
 chatbot = ChatBot(nome_assistente)

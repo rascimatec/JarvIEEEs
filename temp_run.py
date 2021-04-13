@@ -23,6 +23,8 @@ version = "1.0.0"       # apenas um valor arbitrário para indicar a versão atu
 finalizacao = ["adeus", "finalizar", "tchau"]  # Lista de comandos usados para hibernar o assistente
 engineSPK = pyttsx3.init('sapi5')
 trainpath = "C:/Users/J. Gabriel/Documents/GitHub/JarvIEEEs/lib/portuguese"
+# change this for the path of your directory
+
 
 def chatter_setup():
     # A lista de dialogos do corpus:

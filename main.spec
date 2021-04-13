@@ -3,11 +3,11 @@
 block_cipher = None
 
 
-a = Analysis(['temp_run.py'],
-             pathex=['C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs\\Geral', 'C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs\\lib\\chatterbot_corpus\\data\\portuguese', 'C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs'],
+a = Analysis(['main.py'],
+             pathex=['C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs\\Geral', 'C:\\Users\\J. Gabriel\\Documents\\GitHub\\JarvIEEEs'],
              binaries=[],
              datas=[],
-             hiddenimports=['chatterbot_corpus'],
+             hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
@@ -23,7 +23,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='temp_run',
+          name='main',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
