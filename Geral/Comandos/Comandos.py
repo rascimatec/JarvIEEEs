@@ -267,6 +267,9 @@ def acoes(pergunta):  # Possíveis ações que o assistente pode executar
             os.system('cls')
                 #print('aqui')                                                       #deixei elas comentadas pois por hora nao encaixam bem
 
+        else:                           #nao da para contenplar todas as possibilidades das constomizações por isso esse else é responsavel de jogar num padrao tudo que nao se encaixe na nossa base
+            parametro(path)
+
     except:                            # Anti-Erro
         print("no")
 

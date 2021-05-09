@@ -31,7 +31,7 @@ class ConnectBancoDados:
     def __init__(self): #são os parametros para a conexão com o banco de dados
         try:
             self.connection = psycopg2.connect(
-                "dbname='upsaude19' user='upsaude19' host='pgsql.upsaude.net.br' password='080901' port='5432'")
+                "dbname='LocalDataBase' user='' host='localhost' password='postgres' port='5432'")
             self.connection.autocommit = True #update do banco automaticamente 
             self.cursor = self.connection.cursor() 
         except:
