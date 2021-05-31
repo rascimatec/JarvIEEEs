@@ -24,14 +24,15 @@ $ pip install -r req.txt
 - Right click at the LocalDataBase just created and choose "restore". Set the format as "custom or tar" and import the "Banco_Jarvies" located at `JarvIEEEs/Geral/Database`. *If you the files don't appear click at the bottom right corner and change the file type from 'backup' to 'all files'*
 - Click at restore. It's likely you get a error message but if everything is like the image bellow and you see the same tables the process was successful 
 
-
+![banner](https://github.com/rascimatec/JarvIEEEs/blob/master/resources/verification.jpg?raw=true)
 
 
 ## Package contents
 **Geral**
-> - **Comandos:** the main file that should be run
-> - **DataBase:** the database itself and the functions used to establish the connection with the database
+   - **Comandos:** the main file that should be run
+   - **DataBase:** the database itself and the functions used to establish the connection with the database
 - **lib:** files used to train the Chatterbot. On the root are the files cloned from: https://github.com/gunthercox/chatterbot-corpus and on the custom folder are added train files
+- **resources:** general support files for the repository
 
 ## Personalizing
 ### Adding commands to the database
