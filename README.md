@@ -29,8 +29,8 @@ $ pip install -r req.txt
 
 ## Package contents
 **Geral**
-   - **Comandos:** the main file that should be run
-   - **DataBase:** the database itself and the functions used to establish the connection with the database
+&nbsp;- **Comandos:** the main file that should be run
+&nbsp;- **DataBase:** the database itself and the functions used to establish the connection with the database
 - **lib:** files used to train the Chatterbot. On the root are the files cloned from: https://github.com/gunthercox/chatterbot-corpus and on the custom folder are added train files
 - **resources:** general support files for the repository
 
