@@ -13,12 +13,12 @@ $ git clone https://github.com/rascimatec/JarvIEEEs
 $ pip install -r req.txt
 ```
 *note: if you get the error message "module not found" when running the code, please install this one manually*
-
+*note: go to `JarvIEEEs/temp_run.py` and change the variable "trainpath" for the complete adress of the folder `lib` at your computer. Do the same to the `JarvIEEEs/Geral/Comandos/Comandos.py` file*
 ## Install database
 - Download the postgresql (the version 12.6 is recommended)
 - When asked about the additional select all except the "startbuild" option
 - When asked to create a password choose "postgres" without quotation marks
-- Open the "pgadm4 v5.0"
+- Run the "pgAdmin 4"
 - Double left click at "Servers", after PostgreSQL12 and after Databases
 - Right click on Databases, select Create --> DataBase. So set the database name as "LocalDataBase" without quotation marks. Click at save
 - Right click at the LocalDataBase just created and choose "restore". Set the format as "custom or tar" and import the "Banco_Jarvies" located at `JarvIEEEs/Geral/Database`. *If you the files don't appear click at the bottom right corner and change the file type from 'backup' to 'all files'*
