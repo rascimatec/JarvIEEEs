@@ -12,10 +12,25 @@ $ git clone https://github.com/rascimatec/JarvIEEEs
 ```bash
 $ pip install -r req.txt
 ```
+*note: if you get the error message "module not found" when running the code, please install this one manually*
+
+## Install database
+- Download the postgresql (the version 12.6 is recommended)
+- When asked about the additional select all except the "startbuild" option
+- When asked to create a password choose "postgres" without quotation marks
+- Open the "pgadm4 v5.0"
+- Double left click at "Servers", after PostgreSQL12 and after Databases
+- Right click on Databases, select Create --> DataBase. So set the database name as "LocalDataBase" without quotation marks. Click at save
+- Right click at the LocalDataBase just created and choose "restore". Set the format as "custom or tar" and import the "Banco_Jarvies" located at `JarvIEEEs/Geral/Database`. *If you the files don't appear click at the bottom right corner and change the file type from 'backup' to 'all files'*
+- Click at restore. It's likely you get a error message but if everything is like the image bellow and you see the same tables the process was successful 
+
+
+
 
 ## Package contents
-- **Comandos:** the main file that should be run
-- **DataBase:** functions used to establish the connection with the database
+**Geral**
+> - **Comandos:** the main file that should be run
+> - **DataBase:** the database itself and the functions used to establish the connection with the database
 - **lib:** files used to train the Chatterbot. On the root are the files cloned from: https://github.com/gunthercox/chatterbot-corpus and on the custom folder are added train files
 
 ## Personalizing

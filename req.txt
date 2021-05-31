@@ -14,5 +14,4 @@ SpeechRecognition==3.8.1
 
 time
 
-webbrowser
 wikipedia
